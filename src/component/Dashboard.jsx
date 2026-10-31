@@ -1,4 +1,6 @@
-import { Link, NavLink, Outlet, useOutlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, NavLink, Outlet, useNavigate, useOutlet } from "react-router-dom";
+import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthProvider";
 import { ArrowLeft, Heart, MapPinHouse, Package, UserPen } from "lucide-react";
 
@@ -31,8 +33,18 @@ const dashboardMenus = [
 ];
 
 function Dashboard() {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
     const outlet = useOutlet();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!loading && !user) {
+            toast.error("Please log in to access your dashboard");
+            navigate("/");
+        }
+    }, [loading, user, navigate]);
+
+    if (loading || !user) return null;
 
     return (
         <div className="mx-auto flex flex-col lg:flex-row gap-6 w-full p-2 md:p-8">
@@ -66,7 +78,7 @@ function Dashboard() {
                     </ul>
                 </aside>
             </div>
-            <section className="flex-1 min-w-0 bg-white shadow-[0_1px_4px_0_#d7dade] min-h-[590px] p-4 md:p-8">
+            <section className={`flex-1 min-w-0 bg-white shadow-[0_1px_4px_0_#d7dade] min-h-[590px] p-4 md:p-8 ${outlet ? "block" : "hidden"}`}>
                 {outlet && (
                     <Link to="/dashboard" className="lg:hidden flex items-center gap-2 mb-4 text-gray-700 hover:text-[#fb641b]">
                         <ArrowLeft size={20} />

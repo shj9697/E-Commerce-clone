@@ -89,7 +89,7 @@ export async function updateMeAPI(name, phone) { // update of name,phonenumber
     }
 };
 
-export async function getWishlistAPI() {
+export async function getWishlistAPI() { //only reads the wishlist
     try {
         const res = await api.get("/api/wishlist");
         return {
@@ -102,7 +102,7 @@ export async function getWishlistAPI() {
     } catch (error) {
         return {
             status: false,
-            message: error.response?.data?.error?.message || "Something went wrong. Please try again."
+            message: error.response?.data?.error?.message
         };
     }
 };
@@ -120,7 +120,7 @@ export async function addToWishlistAPI(productId) {
     } catch (error) {
         return {
             status: false,
-            message: error.response?.data?.error?.message || "Something went wrong. Please try again."
+            message: error.response?.data?.error?.message
         };
     }
 };
@@ -138,7 +138,7 @@ export async function removeFromWishlistAPI(productId) {
     } catch (error) {
         return {
             status: false,
-            message: error.response?.data?.error?.message || "Something went wrong. Please try again."
+            message: error.response?.data?.error?.message
         };
     }
 };

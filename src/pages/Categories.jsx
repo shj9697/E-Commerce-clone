@@ -20,6 +20,7 @@ function Categories() {
 				setLoading(true);
 				setError(null);
 				const data = await getProductCategoriesBySlugAPI(slug);
+				console.log(data)
 				if (!cancelled) setData(data.categories);
 			} catch (err) {
 				if (!cancelled) setError(err.message);

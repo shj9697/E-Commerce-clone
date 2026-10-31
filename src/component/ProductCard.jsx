@@ -29,8 +29,8 @@ const ProductCard = ({ item }) => {
                         strokeWidth={2}
                         className={wishListed ? "absolute top-1 right-1 lg:static shrink-0 fill-red-500 text-red-500 cursor-pointer" : "absolute top-1 right-1 lg:static shrink-0 fill-white text-gray-600 cursor-pointer"}
                         onClick={(event) => {
-                            event.stopPropagation();
-                            toggleWishList(item);
+                            event.stopPropagation();// Its only job is preventing the redirect.
+                            toggleWishList(item); //adds the product to the wishlist, or removes it if it's already there.
                         }}
                     />
                     :

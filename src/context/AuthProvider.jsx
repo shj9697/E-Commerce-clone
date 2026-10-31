@@ -9,11 +9,12 @@ export function AuthProvider({ children }) {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [wishList, setWishList] = useState([]);
+    // A profile update replaces the user object; only signing in or out should reload the wishlist
+    const loggedIn = !!user;
 
     useEffect(() => {
-        if (!user) {
+        if (!loggedIn) {
             setWishList([]);
             return;
         }
@@ -29,19 +30,13 @@ export function AuthProvider({ children }) {
                 setWishList(response.data.productData);
             } catch (err) {
                 if (!cancelled) toast.error(err.message);
-            } finally {
-                if (!cancelled) setLoading(false);
             }
         };
         load();
         return () => { cancelled = true; };
-    }, [user]);
+    }, [loggedIn]);
 
     const toggleWishList = async (item) => {
-        if (!user) {
-            toast.error("Please login");
-            return;
-        }
         const exists = wishList.find((wishListItem) => wishListItem.id === item.id);
         try {
             const response = exists ? await removeFromWishlistAPI(item.id) : await addToWishlistAPI(item.id);
@@ -56,18 +51,18 @@ export function AuthProvider({ children }) {
         }
     };
 
-    const isInWishList = (id) => !!user && wishList.find((wishItem) => wishItem.id === id);
+    //It checks whether a product is in the wishlist, so the heart knows whether to be red or white.
+    const isInWishList = (id) => wishList.find((wishItem) => wishItem.id === id);
 
     useEffect(() => {
         let cancelled = false;
         async function load() {
             try {
                 setLoading(true);
-                setError(null);
                 const data = await meAPI();
                 if (!cancelled) setUser(data);
             } catch (err) {
-                if (!cancelled) setError(err.message);
+                if (!cancelled) toast.error(err.message);
             } finally {
                 if (!cancelled) setLoading(false);
             }
@@ -86,34 +81,35 @@ export function AuthProvider({ children }) {
         }
         setUser(null);
         navigate("/");
-        setWishList([]);
     }, [navigate]);
 
 
-    useEffect(() => {
-        if (!user) return;
+    useEffect(() => { // its for session checker
+        if (!loggedIn) return;
         // Asking the server also refreshes an expired access token; once the refresh
         // token has expired that fails too, and the user is logged out
         const checkSession = async () => {
             try {
                 if (!(await meAPI())) {
                     toast.error("Session expired");
-                    logout();
+                    // Skip logoutAPI: with the session already gone it would only fail and toast again
+                    setUser(null);
+                    navigate("/");
                 }
             } catch {
                 // A network or server error isn't a sign-out; the next check retries
             }
         };
-        const timer = setInterval(checkSession, 60 * 1000);
+        const timer = setInterval(checkSession, 60 * 1000); //runs the check every 60 seconds.
         window.addEventListener("focus", checkSession);
         return () => {
             clearInterval(timer);
             window.removeEventListener("focus", checkSession);
         };
-    }, [user, logout]);
+    }, [loggedIn, navigate]);
 
     return (
-        <AuthContext.Provider value={{ user, setUser, loading, logout, authError: error, wishList, toggleWishList, isInWishList }}>
+        <AuthContext.Provider value={{ user, setUser, loading, logout, wishList, toggleWishList, isInWishList }}>
             {children}
         </AuthContext.Provider>
     );
