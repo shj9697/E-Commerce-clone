@@ -15,7 +15,6 @@ const ContactForm = () => {
     const handleSubmit = useCallback(
         async (e) => {
             e.preventDefault();
-
             if (!form.name.trim()) {
                 toast.error("Please enter your name!");
                 return;

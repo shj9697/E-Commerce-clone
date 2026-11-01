@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { addToWishlistAPI, getWishlistAPI, logoutAPI, meAPI, removeFromWishlistAPI } from "../api/authentication";
+import { addToWishlistAPI, getWishlistAPI, googleLoginAPI, logoutAPI, meAPI, removeFromWishlistAPI } from "../api/authentication";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -59,6 +59,17 @@ export function AuthProvider({ children }) {
         async function load() {
             try {
                 setLoading(true);
+                // Google's sign-in page sends the user back with the ID token in the URL hash
+                const googleParams = new URLSearchParams(window.location.hash.slice(1));
+                if (googleParams.has("state")) {
+                    window.history.replaceState(null, "", window.location.pathname);
+                    // A state we didn't store means the redirect didn't start from our Google button
+                    if (googleParams.get("id_token") && googleParams.get("state") === sessionStorage.getItem("googleLoginState")) {
+                        const loginData = await googleLoginAPI(googleParams.get("id_token"));
+                        if (loginData.status) toast.success("Login SuccessFully");
+                        else toast.error(loginData.message || "Google login failed");
+                    }
+                }
                 const data = await meAPI();
                 if (!cancelled) setUser(data);
             } catch (err) {

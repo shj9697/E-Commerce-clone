@@ -11,7 +11,6 @@ const CollectionContent = () => {
 
     useEffect(() => {
         let cancelled = false;
-
         async function load() {
             try {
                 setLoading(true);
