@@ -29,7 +29,6 @@ api.interceptors.response.use(
 
 export default api; // PART 3: let other files use it
 
-
 //An interceptor is a function axios runs on every request or response automatically, 
 //so you don't have to repeat that code in each API call.
 // Think of it as a checkpoint every request passes through.

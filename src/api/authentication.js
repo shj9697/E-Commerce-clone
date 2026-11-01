@@ -31,6 +31,22 @@ export async function loginAPI(email, password) {
     }
 }
 
+// credential is the ID token Google's sign-in button hands back
+export async function googleLoginAPI(credential) {
+    try {
+        const res = await api.post("/api/auth/google", { credential });
+        return {
+            status: true,
+            data: res.data?.data?.user
+        };
+    } catch (error) {
+        return {
+            status: false,
+            message: error.response?.data?.error?.message
+        };
+    }
+}
+
 // The tokens are httpOnly cookies, so JavaScript can't delete them; the server clears them
 export async function logoutAPI() {
     try {
@@ -46,7 +62,6 @@ export async function logoutAPI() {
         };
     }
 }
-
 
 // authentication.js
 

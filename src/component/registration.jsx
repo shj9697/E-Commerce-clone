@@ -1,7 +1,8 @@
 import { useState } from "react";
 import LoginModal from "./LoginModal";
 import { useForm } from "react-hook-form";
-import { getAuthenticationAPI, loginAPI } from "../api/authentication";
+import { getAuthenticationAPI, googleLoginAPI, loginAPI } from "../api/authentication";
+import { GoogleLogin } from "@react-oauth/google";
 import { brandIcon, brandLogo } from "./brandImages";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthProvider";
@@ -79,6 +80,17 @@ const Registration = ({ isOpen, closeModal }) => {
         setMode("login");
         reset();
         closeModal();
+    }
+
+    const handleGoogleLogin = async (googleResponse) => {
+        const loginData = await googleLoginAPI(googleResponse.credential);
+        if (!loginData.status) {
+            toast.error(loginData.message || "Google login failed");
+            return;
+        }
+        setUser(loginData.data || null);
+        toast.success("Login SuccessFully");
+        handleCloseModal();
     }
 
     return (
@@ -165,7 +177,9 @@ const Registration = ({ isOpen, closeModal }) => {
                             </button>
                         </div>
                     </>
-                ) : (
+                )
+                :
+                (
                     <>
                         <form onSubmit={handleSubmit(onSubmit, onError)}>
                             <div className={step === "password" ? "flex justify-center items-center mt-8 lg:mt-15 opacity-70" : "flex justify-center items-center mt-8 lg:mt-15"}>
@@ -219,7 +233,7 @@ const Registration = ({ isOpen, closeModal }) => {
                                 <span className="text-gray-500">OR</span>
                                 <span className="w-32 h-px bg-gray-500" />
                             </div>
-                            <img src="/assets/images/google.png" alt="Sign in with Google" className="h-7 w-7" />
+                            <GoogleLogin type="icon" onSuccess={handleGoogleLogin} onError={() => toast.error("Google login failed")} />
                             <button
                                 type="button"
                                 onClick={() => switchMode("register")}

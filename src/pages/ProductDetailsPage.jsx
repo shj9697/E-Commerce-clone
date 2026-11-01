@@ -37,9 +37,10 @@ function ProductDetailsPage() {
             try {
                 setLoading(true);
                 setError(null);
-                const data = await getRelatedProductsAPI(productId);
                 const productDetails = await getProductDetailsAPI(productId);
                 console.log(productDetails)
+                const data = await getRelatedProductsAPI(productId);
+                console.log(data)
                 if (!cancelled) {
                     setSimilar(data.similar);
                     setData(data.youMayAlsoLike);

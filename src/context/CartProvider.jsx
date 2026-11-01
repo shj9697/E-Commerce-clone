@@ -12,12 +12,6 @@ export function CartProvider({ children }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!user) {
-      setCart({ items: [], totalItems: 0, totalAmount: 0 });
-      setError(null);
-      setLoading(false);
-      return;
-    }
     let cancelled = false;
     async function load() {
       try {
