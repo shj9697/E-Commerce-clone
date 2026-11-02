@@ -12,7 +12,7 @@ function Breadcrumb({ paths }) {
             <div key={path.link ?? index} className={`flex items-center gap-2 ${isCurrent ? "min-w-0" : "shrink-0"}`}>
               <ChevronRight size={16} />
               {isCurrent ? (
-                <span aria-current="page" className="text-gray-600 truncate max-w-[50vw] md:max-w-[420px]">
+                <span className="text-gray-600 truncate max-w-[50vw] md:max-w-[420px]">
                   {path.title}
                 </span>
               ) : (

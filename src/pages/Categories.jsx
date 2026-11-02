@@ -9,7 +9,7 @@ import SliderItem from "../component/sliderItem";
 function Categories() {
 	const navigate = useNavigate();
 	const { slug } = useParams();
-	const [data, setData] = useState({ title: "", products: [] });
+	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
@@ -74,7 +74,7 @@ function Categories() {
 				<div className="w-full">
 					<SliderItem
 						title={"Latest Products in " + (data?.name || "")}
-						list={data.latestProducts || []}
+						list={data?.latestProducts || []}
 					/>
 				</div>
 			</div>

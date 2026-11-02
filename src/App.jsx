@@ -3,10 +3,8 @@ import { Toaster } from "react-hot-toast";
 import "./App.css";
 import "swiper/css";
 import "swiper/css/navigation";
-
 import { AuthProvider } from "./context/AuthProvider";
 import { CartProvider } from "./context/CartProvider";
-
 import Navbar from "./component/Navbar";
 import Footer from "./component/Footer";
 import Dashboard from "./component/Dashboard";
@@ -17,7 +15,7 @@ import Address from "./component/Address";
 import AddressDetails from "./component/AddressDetails";
 import Home from "./pages/Home";
 import Categories from "./pages/Categories";
-import SubCategories from "./pages/SubCategories";
+import SubCategoriesRoute from "./pages/SubCategoriesRoute";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import Embose from "./pages/Embose";
 import Franchise from "./pages/Franchise";
@@ -40,7 +38,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/categories/:slug" element={<Categories />} />
-              <Route path="/categories/:categorySlug/:subCategorySlug" element={<SubCategories />} />
+              <Route path="/categories/:categorySlug/:subCategorySlug" element={<SubCategoriesRoute />} />
               <Route path="/categories/:parentId/:subId/:productId" element={<ProductDetailsPage />} />
               <Route path="/emboss" element={<Embose />} />
               <Route path="/franchise" element={<Franchise />} />

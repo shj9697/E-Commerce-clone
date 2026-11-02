@@ -38,6 +38,7 @@ function ProductDetailsPage() {
                 setLoading(true);
                 setError(null);
                 const productDetails = await getProductDetailsAPI(productId);
+                console.log(productDetails)
                 const data = await getRelatedProductsAPI(productId);
                 if (!cancelled) {
                     setSimilar(data.similar);
@@ -55,9 +56,9 @@ function ProductDetailsPage() {
     }, [productId]);
 
     const pincodeVerify = async () => {
-        const { data } = await getPincodeAPI(pincode);
-        if (data?.serviceable) {
-            setMessage(data?.message || "Available at your Pincode");
+        const data = await getPincodeAPI(pincode);
+        if (data?.data?.serviceable) {
+            setMessage(data?.data?.message || "Available at your Pincode");
             setMessageType('success');
         } else {
             setMessage(data?.message || "Not-availble at your pincode");
@@ -117,18 +118,22 @@ function ProductDetailsPage() {
                             {(productDetails?.images || []).map((img, index) => {
                                 return (
                                     <div key={img.id} className={`w-16 h-16 shrink-0 p-2 rounded-lg border-2 ${activeImage === index ? "border-[#fb641b]" : "border-transparent"}`}>
-                                        <img src={img.url} alt={img.alt} className="w-full h-full cursor-pointer object-contain" onClick={() => handleImages(index)} />
+                                        <img src={img.url} alt={productDetails?.title} className="w-full h-full cursor-pointer object-contain" onClick={() => handleImages(index)} />
                                     </div>
                                 )
                             })}
                         </div>
                         <div className="w-full my-4 lg:flex-1 lg:mx-4 lg:my-10">
                             <div className="h-90">
-                                <img src={(productDetails?.images || [])?.[activeImage]?.url || ""} alt={(productDetails?.images || [])?.[activeImage]?.alt || "product-image"} className="w-full h-full cursor-pointer object-contain" />
+                                <img src={productDetails?.images?.[activeImage]?.url}
+                                    alt={productDetails?.title}
+                                    className="w-full h-full cursor-pointer object-contain" />
                             </div>
                             <div className="hidden lg:flex justify-center gap-5 mt-5">
-                                <button className="px-9 py-2 bg-white cursor-pointer border-2 border-[#fb641b] whitespace-nowrap hover:-translate-y-2 transition-transform duration-200 ease-out" onClick={() => addToCart(productId)}>ADD TO CART</button>
-                                <button className="px-9 py-2 bg-[#fb641b] text-white cursor-pointer whitespace-nowrap hover:-translate-y-2 transition-transform duration-200 ease-out" onClick={() => handleBuyNow(productId)}>BUY NOW</button>
+                                <button className="px-9 py-2 bg-white cursor-pointer border-2 border-[#fb641b] whitespace-nowrap hover:-translate-y-2 transition-transform duration-200 ease-out"
+                                    onClick={() => addToCart(productId)}>ADD TO CART</button>
+                                <button className="px-9 py-2 bg-[#fb641b] text-white cursor-pointer whitespace-nowrap hover:-translate-y-2 transition-transform duration-200 ease-out"
+                                    onClick={() => handleBuyNow(productId)}>BUY NOW</button>
                             </div>
                         </div>
                     </div>

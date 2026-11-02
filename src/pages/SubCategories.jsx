@@ -3,8 +3,7 @@ import Breadcrumb from "../component/Breadcrumb";
 import { useEffect, useState } from "react";
 import ProductCard from "../component/ProductCard";
 import Filter from "../component/Filter";
-import { getProductCategoriesBySlugAPI, getProductCategoriesBySubSlugAPI } from "../api/productCategoriesApi";
-import { getProductsAPI } from "../api/productapi";
+import { getProductsAPI, getProductCategoriesBySlugAPI, getProductCategoriesBySubSlugAPI } from "../api/productCategoriesApi";
 import { ArrowUpDown, SlidersHorizontal } from "lucide-react";
 
 function SubCategories() {
@@ -17,16 +16,6 @@ function SubCategories() {
 	const [embossable, setEmbossable] = useState(false);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 	const [isSortOpen, setIsSortOpen] = useState(false);
-
-	useEffect(() => {
-		if (categorySlug) {
-			setCategory(categorySlug);
-		}
-		if (subCategorySlug) {
-			setSubCategory(subCategorySlug);
-		}
-	}, [categorySlug, subCategorySlug]);
-
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);

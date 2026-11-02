@@ -2,7 +2,7 @@ import Breadcrumb from "../component/Breadcrumb";
 import { useEffect, useState } from "react";
 import ProductCard from "../component/ProductCard";
 import Filter from "../component/Filter";
-import { getProductsAPI } from "../api/productapi";
+import { getProductsAPI } from "../api/productCategoriesApi";
 import { ArrowUpDown, SlidersHorizontal } from "lucide-react";
 
 function Embose() {

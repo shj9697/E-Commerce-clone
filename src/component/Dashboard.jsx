@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link, NavLink, Outlet, useNavigate, useOutlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate, useOutlet, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthProvider";
 import { ArrowLeft, Heart, MapPinHouse, Package, UserPen } from "lucide-react";
@@ -36,6 +36,7 @@ function Dashboard() {
     const { user, loading } = useAuth();
     const outlet = useOutlet();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
     useEffect(() => {
         if (!loading && !user) {
@@ -80,7 +81,7 @@ function Dashboard() {
             </div>
             <section className={`flex-1 min-w-0 bg-white shadow-[0_1px_4px_0_#d7dade] min-h-[590px] p-4 md:p-8 ${outlet ? "block" : "hidden"}`}>
                 {outlet && (
-                    <Link to="/dashboard" className="lg:hidden flex items-center gap-2 mb-4 text-gray-700 hover:text-[#fb641b]">
+                    <Link to={searchParams.get("order") ? "/dashboard/orders" : "/dashboard"} className="lg:hidden flex items-center gap-2 mb-4 text-gray-700 hover:text-[#fb641b]">
                         <ArrowLeft size={20} />
                         Back
                     </Link>

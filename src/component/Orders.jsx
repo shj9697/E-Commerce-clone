@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { getOrdersAPI } from "../api/ordersApi";
+import OrderDetails from "./orderDetails";
 
 function Orders() {
     const navigate = useNavigate();
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const selectedOrder = orders.find((order) => order.orderNumber === searchParams.get("order"));
 
     useEffect(() => {
         let cancelled = false;
@@ -34,6 +37,9 @@ function Orders() {
     if (error) {
         return <p>Error : {error}</p>
     }
+    if (selectedOrder) {
+        return <OrderDetails order={selectedOrder} />;
+    }
 
     return (
         <div>
@@ -48,7 +54,7 @@ function Orders() {
                 :
                 <div className="flex flex-col gap-4 mt-6">
                     {orders.map((order) => (
-                        <div key={order.orderNumber} className="border border-gray-200 rounded p-4">
+                        <div key={order.orderNumber} onClick={() => setSearchParams({ order: order.orderNumber })} className="border border-gray-200 rounded p-4 cursor-pointer">
                             <div className="flex flex-wrap justify-between gap-2 border-b border-gray-200 pb-3">
                                 <div>
                                     <p className="font-semibold">{order.orderNumber}</p>

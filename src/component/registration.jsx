@@ -8,7 +8,7 @@ import { useAuth } from "../context/AuthProvider";
 
 const Registration = ({ isOpen, closeModal }) => {
     const { setUser } = useAuth();
-    const { register, handleSubmit, reset } = useForm({ mode: "onSubmit" });
+    const { register, handleSubmit, reset, watch } = useForm({ mode: "onSubmit" });
     const [step, setStep] = useState("identifier");
     const [mode, setMode] = useState("login");
     const [isPhoneInput, setIsPhoneInput] = useState(false);
@@ -83,14 +83,15 @@ const Registration = ({ isOpen, closeModal }) => {
 
     // Leaves the site for Google's sign-in page; AuthProvider finishes the login when Google sends the user back
     const handleGoogleLogin = () => {
+        // Random code we save now and check when Google sends the user back, to make sure the reply is ours
         const state = crypto.randomUUID();
         sessionStorage.setItem("googleLoginState", state);
         const params = new URLSearchParams({
-            client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-            redirect_uri: window.location.origin,
-            response_type: "id_token",
-            scope: "openid email profile",
-            nonce: crypto.randomUUID(),
+            client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID, // our app's Google ID
+            redirect_uri: window.location.origin,             // where Google sends the user back
+            response_type: "id_token",                        // ask Google for a token with the user's info
+            scope: "openid email profile",                    // the info we want: email and profile
+            nonce: crypto.randomUUID(),                       // Google requires this for id_token
             state,
         });
         window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params}`;
@@ -156,8 +157,8 @@ const Registration = ({ isOpen, closeModal }) => {
                             </div>
 
                             <div className="w-full flex items-center border-0 gap-2 mt-4">
-                                <input type="checkbox" />
-                                <p className="text-[12px]">I agree to the <span className="text-[#fb641b] text-[12px]">TERMS & CONDITION.</span></p>
+                                <input type="checkbox" disabled={!watch("name") || !watch("email") || !watch("password")} />
+                                <p className="text-[12px]">I agree to the <span className="text-[#fb641b] text-[12px] cursor-pointer" onClick={() => { window.open("/TermsAndCondition") }}>terms & conditions.</span></p>
                             </div>
 
                             <button type="submit" className="bg-[#fb641b] text-white p-3 mt-4 text-center w-full cursor-pointer rounded-[10px]">
@@ -165,7 +166,7 @@ const Registration = ({ isOpen, closeModal }) => {
                             </button>
                         </form>
 
-                        <div className="flex flex-col items-center gap-5 lg:gap-10 mt-4">
+                        <div className="flex flex-col items-center gap-5 mt-4">
                             <div className="flex items-center gap-2">
                                 <span className="w-32 h-px bg-gray-500" />
                                 <span className="text-gray-500">OR</span>
