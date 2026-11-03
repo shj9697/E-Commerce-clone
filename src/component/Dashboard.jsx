@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link, NavLink, Outlet, useNavigate, useOutlet, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthProvider";
-import { ArrowLeft, Heart, MapPinHouse, Package, UserPen } from "lucide-react";
+import { ArrowLeft, Heart, LogOut, MapPinHouse, Package, UserPen } from "lucide-react";
 
 const dashboardMenus = [
     {
@@ -33,7 +33,7 @@ const dashboardMenus = [
 ];
 
 function Dashboard() {
-    const { user, loading } = useAuth();
+    const { user, loading, logout } = useAuth();
     const outlet = useOutlet();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
@@ -76,12 +76,21 @@ function Dashboard() {
                                 </NavLink>
                             </li>
                         ))}
+                        <li className="flex-1 lg:flex-none">
+                            <button
+                                onClick={logout}
+                                className="flex items-center justify-start w-full h-[52px] lg:h-[68px] px-3 lg:px-8 text-[15px] lg:text-[17px] whitespace-nowrap border-b-4 lg:border-b-0 lg:border-r-[6px] gap-2 border-transparent text-gray-700 hover:bg-gray-50 cursor-pointer"
+                            >
+                                <LogOut size={24} className="text-[#fb641b]" />
+                                Logout
+                            </button>
+                        </li>
                     </ul>
                 </aside>
             </div>
             <section className={`flex-1 min-w-0 bg-white shadow-[0_1px_4px_0_#d7dade] min-h-[590px] p-4 md:p-8 ${outlet ? "block" : "hidden"}`}>
                 {outlet && (
-                    <Link to={searchParams.get("order") ? "/dashboard/orders" : "/dashboard"} className="lg:hidden flex items-center gap-2 mb-4 text-gray-700 hover:text-[#fb641b]">
+                    <Link to={searchParams.get("order") ? "/dashboard/orders" : "/dashboard"} className="flex items-center gap-2 mb-4 text-gray-700">
                         <ArrowLeft size={20} />
                         Back
                     </Link>
