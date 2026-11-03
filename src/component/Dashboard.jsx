@@ -79,7 +79,7 @@ function Dashboard() {
                         <li className="flex-1 lg:flex-none">
                             <button
                                 onClick={logout}
-                                className="flex items-center justify-start w-full h-[52px] lg:h-[68px] px-3 lg:px-8 text-[15px] lg:text-[17px] whitespace-nowrap border-b-4 lg:border-b-0 lg:border-r-[6px] gap-2 border-transparent text-gray-700 hover:bg-gray-50 cursor-pointer"
+                                className="lg:hidden flex items-center justify-start w-full h-[52px] lg:h-[68px] px-3 lg:px-8 text-[15px] lg:text-[17px] whitespace-nowrap border-b-4 lg:border-b-0 lg:border-r-[6px] gap-2 border-transparent text-gray-700 hover:bg-gray-50 cursor-pointer"
                             >
                                 <LogOut size={24} className="text-[#fb641b]" />
                                 Logout
