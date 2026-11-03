@@ -26,6 +26,7 @@ function ProductDetailsPage() {
     const [error, setError] = useState(null);
     const [productDetails, setProductDetails] = useState(null);
     const [activeImage, setActiveImage] = useState(0);
+    const [zoomOrigin, setZoomOrigin] = useState(null);
     const { addToCart } = useCart();
     const { toggleWishList, isInWishList, user } = useAuth();
     const wishListed = isInWishList(productId);
@@ -80,6 +81,11 @@ function ProductDetailsPage() {
         setActiveImage(index);
     };
 
+    const handleZoom = (e) => {
+        const box = e.currentTarget.getBoundingClientRect();
+        setZoomOrigin(`${((e.clientX - box.left) / box.width) * 100}% ${((e.clientY - box.top) / box.height) * 100}%`);
+    };
+
     if (loading) {
         return <p>Loading......</p>
     }
@@ -124,10 +130,11 @@ function ProductDetailsPage() {
                             })}
                         </div>
                         <div className="w-full my-4 lg:flex-1 lg:mx-4 lg:my-10">
-                            <div className="h-90">
+                            <div className="h-90 overflow-hidden" onMouseMove={handleZoom} onMouseLeave={() => setZoomOrigin(null)}>
                                 <img src={productDetails?.images?.[activeImage]?.url}
                                     alt={productDetails?.title}
-                                    className="w-full h-full cursor-pointer object-contain" />
+                                    style={{ transformOrigin: zoomOrigin }}
+                                    className={`w-full h-full cursor-zoom-in object-contain transition-transform duration-200 ${zoomOrigin ? "scale-200" : ""}`} />
                             </div>
                             <div className="hidden lg:flex justify-center gap-5 mt-5">
                                 <button className="px-9 py-2 bg-white cursor-pointer border-2 border-[#fb641b] whitespace-nowrap hover:-translate-y-2 transition-transform duration-200 ease-out"
