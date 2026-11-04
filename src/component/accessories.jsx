@@ -3,7 +3,7 @@ import SliderItem from "./sliderItem";
 
 
 
-const Accessories = ({ list = [] }) => {
+const Accessories = ({ list = [], loading = false }) => {
     const navigate = useNavigate();
 
     function handleViewProduct() {
@@ -14,6 +14,7 @@ const Accessories = ({ list = [] }) => {
         <SliderItem
             title={"Accessories"}
             list={list}
+            loading={loading}
             handleViewAll={handleViewProduct}
         />
     );

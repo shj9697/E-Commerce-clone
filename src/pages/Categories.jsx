@@ -33,8 +33,25 @@ function Categories() {
 	}, [slug]);
 
 	if (loading) {
-		return <p>Loading......</p>
+		return (
+			<div className="px-8 pb-8 animate-pulse">
+				<div className="flex flex-col">
+					<div className="h-6 w-56 my-3 bg-gray-200 rounded"></div>
+					<span className="w-25 h-1 bg-[#fb641b]"></span>
+				</div>
+
+				<div className="w-full gap-5 py-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
+					{Array.from({ length: 10 }).map((_, index) => (
+						<div key={index} className="bg-white rounded-md p-4">
+							<div className="h-4 w-2/3 bg-gray-200 rounded"></div>
+							<div className="w-full aspect-square mt-3 bg-gray-200 rounded"></div>
+						</div>
+					))}
+				</div>
+			</div>
+		)
 	}
+
 	if (error) {
 		return <p>Error : {error}</p>
 	};
@@ -82,4 +99,4 @@ function Categories() {
 	);
 }
 
-export default Categories;  
+export default Categories;

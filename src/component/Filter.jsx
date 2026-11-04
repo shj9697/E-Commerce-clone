@@ -32,9 +32,7 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
         return () => { cancelled = true; };
     }, [category, subCategory]);
 
-    if (loading && !data) {
-        return <p>Loading......</p>
-    }
+
     if (error) {
         return <p>Error : {error}</p>
     };

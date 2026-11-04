@@ -9,8 +9,8 @@ import { ArrowUpDown, SlidersHorizontal } from "lucide-react";
 function SubCategories() {
 	const { categorySlug, subCategorySlug } = useParams();
 	const [sortBy, setSortBy] = useState("relevance");
-	const [category, setCategory] = useState("");
-	const [subCategory, setSubCategory] = useState("");
+	const [category, setCategory] = useState(categorySlug);
+	const [subCategory, setSubCategory] = useState(subCategorySlug);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [stock, setStock] = useState(true);
 	const [embossable, setEmbossable] = useState(false);
@@ -37,6 +37,7 @@ function SubCategories() {
 				};
 				const productListData = await getProductsAPI(params);
 				const categoryData = await getProductCategoriesBySlugAPI(category);
+				console.log(categoryData)
 				const subCategorydata = await getProductCategoriesBySubSlugAPI(category, subCategory);
 				if (!cancelled) {
 					setData({
@@ -56,7 +57,29 @@ function SubCategories() {
 	}, [category, subCategory, currentPage, sortBy, embossable, stock]);
 
 	if (loading && !data.productListData) {
-		return <p>Loading......</p>
+		return (
+			<div className="w-full bg-white px-4 pb-16 md:px-8 md:pb-0 animate-pulse">
+				<div className="w-full h-[50px] bg-gray-100"></div>
+				<div className="bg-white py-5 w-full flex flex-col gap-6 md:flex-row md:gap-10">
+					<div className="hidden md:flex w-full shrink-0 md:w-50 lg:w-70 flex-col gap-2">
+						<div className="h-8 w-full bg-gray-200 rounded"></div>
+						<div className="h-28 w-full bg-gray-200 rounded-md"></div>
+						<div className="h-48 w-full bg-gray-200 rounded-md"></div>
+						<div className="h-24 w-full bg-gray-200 rounded-md"></div>
+					</div>
+					<div className="flex-1 min-w-0 grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
+						{Array.from({ length: 8 }).map((index) => (
+							<div key={index} className="p-2 h-80">
+								<div className="h-45 w-full bg-gray-200 rounded-md"></div>
+								<div className="h-4 w-full mt-3 bg-gray-200 rounded"></div>
+								<div className="h-4 w-1/2 mt-2 bg-gray-200 rounded"></div>
+								<div className="h-4 w-1/3 mt-2 bg-gray-200 rounded"></div>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+		)
 	}
 	if (error) {
 		return <p>Error : {error}</p>
@@ -91,9 +114,9 @@ function SubCategories() {
 		<div className="w-full bg-white px-4 pb-16 md:px-8 md:pb-0">
 			<Breadcrumb
 				paths={[
-					{ title: categorySlug, link: `/categories/${categorySlug}` },
+					{ title: data.categoryData?.name, link: `/categories/${categorySlug}` },
 					{
-						title: subCategorySlug,
+						title: data.subCategoryData?.name,
 						link: `/categories/${categorySlug}/${subCategorySlug}`,
 					},
 				]}

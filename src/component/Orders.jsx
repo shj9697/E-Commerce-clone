@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, Outlet, useNavigate, useOutlet, useSearchParams } from "react-router-dom";
 import { getOrdersAPI } from "../api/ordersApi";
 import OrderDetails from "./orderDetails";
 
@@ -32,7 +32,7 @@ function Orders() {
     }, []);
 
     if (loading) {
-        return <p>Loading......</p>
+        return <p>Loading....</p>
     }
     if (error) {
         return <p>Error : {error}</p>

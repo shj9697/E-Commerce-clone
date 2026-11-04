@@ -4,8 +4,16 @@ import { Navigation, A11y } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
-export default function HeroSection({ banner = [] }) {
+export default function HeroSection({ banner = [], loading = false }) {
 	const swiperRef1 = useRef(null);
+
+	if (loading) {
+		return (
+			<div className="pt-2 relative lg:w-full">
+				<div className="w-full h-120 bg-gray-300 animate-pulse" />
+			</div>
+		)
+	}
 
 	return (
 		<div className="pt-2 relative lg:w-full">

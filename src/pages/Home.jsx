@@ -33,25 +33,22 @@ function Home() {
     return () => { cancelled = true; };
   }, []);
 
-  if (loading) {
-    return <p>Loading......</p>
-  }
   if (error) {
     return <p>Error : {error}</p>
   };
 
   return (
     <div className="w-full flex flex-col gap-2 px-3">
-      <HeroSection banner={homePageContent?.banners?.hero} />
-      <DealOfTheDayCards list={homePageContent?.collections?.find(item => item.slug === 'deal-of-the-day')?.products} />
-      <Banner imgUrl={homePageContent?.banners?.["mid-1"]?.imageUrl} path={homePageContent?.banners?.["mid-1"]?.linkUrl} />
-      <TrendingNow list={homePageContent?.collections?.find(item => item.slug === 'trending')?.products} />
-      <Banner2 imgUrl={homePageContent?.banners?.["mid-2"]?.imageUrl} path={homePageContent?.banners?.["mid-2"]?.linkUrl} />
-      <BestSellers list={homePageContent?.collections?.find(item => item.slug === "best-sellers")?.products} />
-      <AboutUs leftContent={homePageContent?.banners?.["mid-3"]?.left} rightContent={homePageContent?.banners?.["mid-3"]?.right} />
-      <Luggage list={homePageContent?.collections?.find(item => item.slug === "luggage")?.products} />
-      <Banner2 imgUrl={homePageContent?.banners?.["mid-4"]?.imageUrl} path={homePageContent?.banners?.["mid-4"]?.linkUrl} />
-      <Accessories list={homePageContent?.collections?.find(item => item.slug === "accessories")?.products} />
+      <HeroSection banner={homePageContent?.banners?.hero} loading={loading} />
+      <DealOfTheDayCards list={homePageContent?.collections?.find(item => item.slug === 'deal-of-the-day')?.products} loading={loading} />
+      <Banner imgUrl={homePageContent?.banners?.["mid-1"]?.imageUrl} path={homePageContent?.banners?.["mid-1"]?.linkUrl} loading={loading} />
+      <TrendingNow list={homePageContent?.collections?.find(item => item.slug === 'trending')?.products} loading={loading} />
+      <Banner2 imgUrl={homePageContent?.banners?.["mid-2"]?.imageUrl} path={homePageContent?.banners?.["mid-2"]?.linkUrl} loading={loading} />
+      <BestSellers list={homePageContent?.collections?.find(item => item.slug === "best-sellers")?.products} loading={loading} />
+      <AboutUs leftContent={homePageContent?.banners?.["mid-3"]?.left} rightContent={homePageContent?.banners?.["mid-3"]?.right} loading={loading} />
+      <Luggage list={homePageContent?.collections?.find(item => item.slug === "luggage")?.products} loading={loading} />
+      <Banner2 imgUrl={homePageContent?.banners?.["mid-4"]?.imageUrl} path={homePageContent?.banners?.["mid-4"]?.linkUrl} loading={loading} />
+      <Accessories list={homePageContent?.collections?.find(item => item.slug === "accessories")?.products} loading={loading} />
     </div>
   )
 }

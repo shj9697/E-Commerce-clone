@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { Link, NavLink, Outlet, useNavigate, useOutlet, useSearchParams } from "react-router-dom";
+import { Link, NavLink, useNavigate, useOutlet, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthProvider";
+import Profile from "./Profile";
 import { ArrowLeft, Heart, LogOut, MapPinHouse, Package, UserPen } from "lucide-react";
 
 const dashboardMenus = [
@@ -67,7 +68,9 @@ function Dashboard() {
                                         `flex items-center justify-start h-[52px] lg:h-[68px] px-3 lg:px-8 text-[15px] lg:text-[17px] whitespace-nowrap border-b-4 lg:border-b-0 lg:border-r-[6px] gap-2 
                                     ${isActive
                                             ? "bg-[#e9ecef] border-[#fb641b] text-gray-900 font-semibold"
-                                            : "border-transparent text-gray-700 hover:bg-gray-50"
+                                            : !outlet && item.id === "profile"
+                                                ? "border-transparent text-gray-700 hover:bg-gray-50 lg:bg-[#e9ecef] lg:border-[#fb641b] lg:text-gray-900 lg:font-semibold"
+                                                : "border-transparent text-gray-700 hover:bg-gray-50"
                                         }`
                                     }
                                 >
@@ -88,14 +91,19 @@ function Dashboard() {
                     </ul>
                 </aside>
             </div>
-            <section className={`flex-1 min-w-0 bg-white shadow-[0_1px_4px_0_#d7dade] min-h-[590px] p-4 md:p-8 ${outlet ? "block" : "hidden"}`}>
-                {outlet && (
-                    <Link to={searchParams.get("order") ? "/dashboard/orders" : "/dashboard"} className="flex items-center gap-2 mb-4 text-gray-700">
+            <section className={`flex-1 min-w-0 bg-white shadow-[0_1px_4px_0_#d7dade] min-h-[590px] p-4 md:p-8 ${outlet ? "block" : "hidden lg:block"}`}>
+                {searchParams.get("order") ? (
+                    <Link to="/dashboard/orders" className="flex items-center gap-2 mb-4 text-gray-700">
+                        <ArrowLeft size={20} />
+                        Back
+                    </Link>
+                ) : outlet && (
+                    <Link to="/dashboard" className="lg:hidden flex items-center gap-2 mb-4 text-gray-700">
                         <ArrowLeft size={20} />
                         Back
                     </Link>
                 )}
-                <Outlet />
+                {outlet || <Profile />}
             </section>
         </div>
     );

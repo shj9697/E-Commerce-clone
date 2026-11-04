@@ -8,7 +8,7 @@ import { useAuth } from "../context/AuthProvider";
 
 
 const CartPage = () => {
-    const { cart } = useCart();
+    const { cart, cartLoading } = useCart();
     const { user, loading } = useAuth();
     const navigate = useNavigate();
 
@@ -23,7 +23,22 @@ const CartPage = () => {
         navigate('/')
     };
 
-    if (loading || !user) return null;
+    if (loading || (cartLoading && cart.items.length === 0)) {
+        return (
+            <div className='flex flex-col lg:flex-row items-start w-full gap-6 lg:px-6 py-10 animate-pulse'>
+                <div className='w-full lg:w-2/3 flex flex-col gap-4'>
+                    <div className="h-8 w-48 rounded-lg bg-gray-300" />
+                    {[1, 2, 3].map((placeholder) => (
+                        <div key={placeholder} className="h-28 w-full rounded-lg bg-gray-300" />
+                    ))}
+                </div>
+                <div className='w-full lg:w-1/3 h-64 rounded-lg bg-gray-300' />
+            </div>
+        )
+    }
+
+    if (!user) return null;
+
 
     return (
         <div className="w-full lg:px-2">

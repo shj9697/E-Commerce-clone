@@ -86,9 +86,33 @@ function ProductDetailsPage() {
         setZoomOrigin(`${((e.clientX - box.left) / box.width) * 100}% ${((e.clientY - box.top) / box.height) * 100}%`);
     };
 
+
     if (loading) {
-        return <p>Loading......</p>
+        return (
+            <section className="flex flex-col justify-between w-full px-8 bg-white lg:flex-row lg:h-135">
+                <div className="flex flex-col-reverse lg:flex-row w-full lg:w-1/2 xl:w-[45%] pt-3">
+                    <div className="flex flex-row lg:flex-col justify-center lg:justify-start gap-2">
+                        <div className="w-16 h-16 rounded-lg bg-gray-300 animate-pulse" />
+                        <div className="w-16 h-16 rounded-lg bg-gray-300 animate-pulse" />
+                        <div className="w-16 h-16 rounded-lg bg-gray-300 animate-pulse" />
+                        <div className="w-16 h-16 rounded-lg bg-gray-300 animate-pulse" />
+                    </div>
+                    <div className="w-full my-4 lg:flex-1 lg:mx-4 lg:my-10">
+                        <div className="h-90 rounded-md bg-gray-300 animate-pulse" />
+                    </div>
+                </div>
+                <div className="w-full lg:flex-1 py-10">
+                    <div className="h-8 w-3/4 mb-4 rounded bg-gray-300 animate-pulse" />
+                    <div className="h-8 w-1/3 mb-8 rounded bg-gray-300 animate-pulse" />
+                    <div className="h-10 w-24 mb-8 rounded bg-gray-300 animate-pulse" />
+                    <div className="h-4 w-full mb-2 rounded bg-gray-300 animate-pulse" />
+                    <div className="h-4 w-full mb-2 rounded bg-gray-300 animate-pulse" />
+                    <div className="h-4 w-2/3 rounded bg-gray-300 animate-pulse" />
+                </div>
+            </section>
+        );
     }
+
     if (error) {
         return <p>Error : {error}</p>
     };
@@ -114,7 +138,7 @@ function ProductDetailsPage() {
                 paths={[
                     { title: productDetails?.categoryRef?.name ?? parentId, link: `/categories/${parentId}` },
                     { title: productDetails?.subcategoryRef?.name ?? subId, link: `/categories/${parentId}/${subId}` },
-                    { title: productDetails?.slug ?? productId, link: `/categories/${parentId}/${subId}/${productId}` },
+                    { title: productDetails?.title ?? productId, link: `/categories/${parentId}/${subId}/${productId}` },
                 ]}
             />
             <div className="flex flex-col justify-between w-full px-8 bg-white lg:flex-row lg:h-135">

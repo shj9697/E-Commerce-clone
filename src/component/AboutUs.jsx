@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
 
-function AboutUs({ leftContent = null, rightContent = null }) {
+function AboutUs({ leftContent = null, rightContent = null, loading = false }) {
 
   if (!leftContent && !rightContent) return null;
+
+  if (loading) {
+    return (
+      <div className="pt-2 relative lg:w-full">
+        <div className="w-full h-120 bg-gray-300 animate-pulse" />
+      </div>
+    )
+  }
 
   return (
     <div className="flex">

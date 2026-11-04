@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import SliderItem from "./sliderItem";
 
-function DealOfTheDayCards({ list = [] }) {
+function DealOfTheDayCards({ list = [], loading = false }) {
   const navigate = useNavigate();
 
   function handleViewProduct() {
@@ -12,6 +12,7 @@ function DealOfTheDayCards({ list = [] }) {
     <SliderItem
       title={"Deal Of The Day"}
       list={list}
+      loading={loading}
       handleViewAll={handleViewProduct}
     />
   );

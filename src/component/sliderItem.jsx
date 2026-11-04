@@ -3,8 +3,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y } from "swiper/modules";
 import ProductCard from "./ProductCard";
 
-const SliderItem = ({ title, handleViewAll, list }) => {
+const SliderItem = ({ title, handleViewAll, list, loading = false }) => {
     const swiperRef = useRef(null);
+
 
     return (
         <div className="p-3 rounded-md bg-white w-full">
@@ -50,16 +51,45 @@ const SliderItem = ({ title, handleViewAll, list }) => {
                         }
                     }}
                 >
-                    {list.map((item) => (
-                        <SwiperSlide key={item.id} className="w-full">
-                            <ProductCard item={item} />
-                        </SwiperSlide>
-                    ))}
+                    {loading
+                        ?
+                        Array.from({ length: 6 }).map(item => {
+                            return (
+                                <SwiperSlide className="w-full">
+                                    <div
+                                        className="cursor-pointer p-2 h-80"
+                                        style={{
+                                            borderTop: "1px solid rgba(0,0,0,.03)",
+                                            borderLeft: "1px solid rgba(0,0,0,.1)",
+                                            boxShadow: "1px 2px 3px rgba(0,0,0,.2)"
+                                        }}
+                                    >
+                                        <div className='relative flex justify-between'>
+                                            <img className="h-45 min-w-0 rounded-md w-full bg-gray-300 animate-pulse" />
+                                        </div>
+                                        <div className="mt-3">
+                                            <p className="h-4 w-full mb-2 rounded bg-gray-300 animate-pulse"></p>
+                                            <p className="h-4 w-1/2 mb-2 rounded bg-gray-300 animate-pulse"></p>
+                                            <div className="flex items-center gap-2">
+                                                <p className="h-4 w-12 rounded bg-gray-300 animate-pulse"></p>
+                                                <span className="h-4 w-10 rounded bg-gray-300 animate-pulse"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                            )
+                        })
+                        :
+                        list.map((item) => (
+                            <SwiperSlide key={item.id} className="w-full">
+                                <ProductCard item={item} />
+                            </SwiperSlide>
+                        ))}
                 </Swiper>
 
                 <button
                     onClick={() => swiperRef.current?.slidePrev()}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white-600 text-black w-10 h-10 rounded-full shadow-lg flex items-center justify-center transition-colors"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white text-black w-10 h-10 rounded-full shadow-lg flex items-center justify-center transition-colors"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +108,7 @@ const SliderItem = ({ title, handleViewAll, list }) => {
                 </button>
                 <button
                     onClick={() => swiperRef.current?.slideNext()}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white-900 text-black w-10 h-10 rounded-full shadow-xl flex items-center justify-center transition-colors"
+                    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white text-black w-10 h-10 rounded-full shadow-xl flex items-center justify-center transition-colors"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +126,7 @@ const SliderItem = ({ title, handleViewAll, list }) => {
                     </svg>
                 </button>
             </div>
-        </div>
+        </div >
     )
 }
 
