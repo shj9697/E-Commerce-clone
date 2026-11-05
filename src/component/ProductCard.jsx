@@ -2,10 +2,19 @@ import { Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthProvider';
 
-const ProductCard = ({ item }) => {
+const ProductCard = ({ item, loading = false }) => {
 
     const navigate = useNavigate();
     const { toggleWishList, isInWishList, user } = useAuth();
+    if (loading) return (
+        <div className="p-2 h-80" style={{ borderTop: "1px solid rgba(0,0,0,.03)", borderLeft: "1px solid rgba(0,0,0,.1)", boxShadow: "1px 2px 3px rgba(0,0,0,.2)" }}>
+            <div className="h-45 w-full rounded-md bg-gray-300 animate-pulse" />
+            <div className="mt-3">
+                <p className="h-4 w-full mb-2 rounded bg-gray-300 animate-pulse"></p>
+                <p className="h-4 w-1/2 rounded bg-gray-300 animate-pulse"></p>
+            </div>
+        </div>
+    );
     const wishListed = isInWishList(item.id);
 
     const handleViewProductDetails = (item) => {
@@ -14,6 +23,7 @@ const ProductCard = ({ item }) => {
 
     return (
         <div
+
             className="cursor-pointer p-2 h-80"
             style={{
                 borderTop: "1px solid rgba(0,0,0,.03)",

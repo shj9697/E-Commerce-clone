@@ -46,7 +46,7 @@ function Dashboard() {
         }
     }, [loading, user, navigate]);
 
-    if (loading || !user) return null;
+    if (!loading && !user) return null;
 
     return (
         <div className="mx-auto flex flex-col lg:flex-row gap-6 w-full p-2 md:p-8">

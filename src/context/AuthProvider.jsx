@@ -10,6 +10,7 @@ export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [wishList, setWishList] = useState([]);
+    const [wishListLoading, setWishListLoading] = useState(false);
     // A profile update replaces the user object; only signing in or out should reload the wishlist
     const loggedIn = !!user;
 
@@ -21,6 +22,7 @@ export function AuthProvider({ children }) {
         let cancelled = false;
         async function load() {
             try {
+                setWishListLoading(true);
                 const response = await getWishlistAPI();
                 if (cancelled) return;
                 if (!response.status) {
@@ -30,6 +32,8 @@ export function AuthProvider({ children }) {
                 setWishList(response.data.productData);
             } catch (err) {
                 if (!cancelled) toast.error(err.message);
+            } finally {
+                if (!cancelled) setWishListLoading(false);
             }
         };
         load();
@@ -120,7 +124,7 @@ export function AuthProvider({ children }) {
     }, [loggedIn, navigate]);
 
     return (
-        <AuthContext.Provider value={{ user, setUser, loading, logout, wishList, toggleWishList, isInWishList }}>
+        <AuthContext.Provider value={{ user, setUser, loading, logout, wishList, wishListLoading, toggleWishList, isInWishList }}>
             {children}
         </AuthContext.Provider>
     );

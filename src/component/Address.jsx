@@ -71,7 +71,30 @@ function Address() {
     }
 
     if (loading) {
-        return <p>Loading......</p>
+        return (
+            <div className="w-full flex flex-col gap-4">
+                <h2 className="text-2xl text-[#fb641b]">Your Address List</h2>
+                <div className="w-20 h-0.5 bg-gray-300" />
+                <div className="w-full animate-pulse">
+                    {[1, 2].map((rowNumber) => (
+                        <div key={rowNumber} className="flex items-center justify-between rounded p-4 mb-4">
+                            <div className="flex flex-col gap-6 py-3">
+                                <div className="h-4 w-40 rounded bg-gray-300" />
+                                <div className="h-4 w-64 rounded bg-gray-300" />
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <div className="w-4 h-4 rounded bg-gray-300" />
+                                <div className="w-4 h-4 rounded bg-gray-300" />
+                            </div>
+                        </div>
+                    ))}
+                    <div className="flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-full bg-gray-300" />
+                        <div className="h-4 w-32 rounded bg-gray-300" />
+                    </div>
+                </div>
+            </div>
+        );
     }
     if (error) {
         return <p>Error : {error}</p>

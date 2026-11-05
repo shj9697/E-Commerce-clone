@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, Outlet, useNavigate, useOutlet, useSearchParams } from "react-router-dom";
+import { Link, Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import { getOrdersAPI } from "../api/ordersApi";
 import OrderDetails from "./orderDetails";
 
@@ -32,8 +32,39 @@ function Orders() {
     }, []);
 
     if (loading) {
-        return <p>Loading....</p>
+        return (
+            <div>
+                <h2 className="text-2xl text-[#fb641b]">Your Order</h2>
+                <div className="w-20 h-0.5 bg-gray-300 mt-3" />
+                <div className="flex flex-col gap-4 mt-6 animate-pulse">
+                    {[1, 2].map((cardNumber) => (
+                        <div key={cardNumber} className="border border-gray-200 rounded p-4">
+                            <div className="flex justify-between gap-2 border-b border-gray-200 pb-3">
+                                <div>
+                                    <div className="h-4 w-32 rounded bg-gray-300" />
+                                    <div className="h-3 w-20 mt-2 rounded bg-gray-300" />
+                                </div>
+                                <div className="flex flex-col items-end">
+                                    <div className="h-3 w-16 rounded bg-gray-300" />
+                                    <div className="h-3 w-24 mt-2 rounded bg-gray-300" />
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-4 py-3">
+                                <div className="w-16 h-16 rounded bg-gray-300" />
+                                <div className="flex-1 h-4 rounded bg-gray-300" />
+                                <div className="h-3 w-10 rounded bg-gray-300" />
+                                <div className="h-4 w-14 rounded bg-gray-300" />
+                            </div>
+                            <div className="flex justify-end border-t border-gray-200 pt-3">
+                                <div className="h-4 w-28 rounded bg-gray-300" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
     }
+
     if (error) {
         return <p>Error : {error}</p>
     }
@@ -43,6 +74,7 @@ function Orders() {
 
     return (
         <div>
+
             <h2 className="text-2xl text-[#fb641b]">Your Order</h2>
             <div className="w-20 h-0.5 bg-gray-300 mt-3" />
             {orders.length === 0 ?

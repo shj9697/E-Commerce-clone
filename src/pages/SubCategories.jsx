@@ -59,6 +59,7 @@ function SubCategories() {
 	if (loading && !data.productListData) {
 		return (
 			<div className="w-full bg-white px-4 pb-16 md:px-8 md:pb-0 animate-pulse">
+				<Breadcrumb className="h-8 w-full bg-gray-200 rounded" />
 				<div className="w-full h-[50px] bg-gray-100"></div>
 				<div className="bg-white py-5 w-full flex flex-col gap-6 md:flex-row md:gap-10">
 					<div className="hidden md:flex w-full shrink-0 md:w-50 lg:w-70 flex-col gap-2">

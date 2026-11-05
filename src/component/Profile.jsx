@@ -6,7 +6,7 @@ import { updateMeAPI } from "../api/authentication";
 
 function Profile() {
 
-    const { user, setUser } = useAuth();
+    const { user, setUser, loading } = useAuth();
     const [mode, setMode] = useState("list");
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
@@ -47,10 +47,25 @@ function Profile() {
 
     return (
         <div>
+
             <h2 className="text-2xl text-[#fb641b]">Profile Details</h2>
             <div className="w-20 h-0.5 bg-gray-300 mt-3" />
 
-            {mode === "list" ? (
+            {loading ? (
+                <div className="animate-pulse">
+                    <div className="mt-6">
+                        {profileDetails.map((item) => (
+                            <div key={item.id} className="flex items-center h-10">
+                                <div className="w-[120px] md:w-[250px] shrink-0">
+                                    <div className="h-4 w-20 bg-gray-200 rounded" />
+                                </div>
+                                <div className="h-4 w-40 md:w-56 bg-gray-200 rounded" />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="mt-8 h-10 w-[118px] bg-gray-200 rounded-sm" />
+                </div>
+            ) : mode === "list" ? (
                 <>
                     <div className="mt-6">
                         {profileDetails.map((item) => (
