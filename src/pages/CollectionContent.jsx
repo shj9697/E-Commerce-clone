@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getCollectionBySlugAPI } from "../api/collectionsApi";
-import ProductCard from "../component/ProductCard";
+import ProductCard from "../components/common/ProductCard";
 
 const CollectionContent = () => {
     const { slug } = useParams();
@@ -31,7 +31,7 @@ const CollectionContent = () => {
             <div className="p-8 bg-white">
                 <div className="h-7 w-48 rounded bg-gray-300 animate-pulse"></div>
                 <div className="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mt-4">
-                    {Array.from({ length: 12 }).map((placeholder, index) => (
+                    {Array.from({ length: 12 }).map((_, index) => (
                         <ProductCard key={index} loading />
                     ))}
                 </div>
@@ -44,6 +44,7 @@ const CollectionContent = () => {
     };
 
     return (
+
         <div className="p-8 bg-white">
             <h1 className="text-2xl">{data?.title || ""}</h1>
             <div className="crossline flex items-center gap-2 ">

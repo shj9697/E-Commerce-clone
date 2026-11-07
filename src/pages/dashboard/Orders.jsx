@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate, useSearchParams } from "react-router-dom";
-import { getOrdersAPI } from "../api/ordersApi";
-import OrderDetails from "./orderDetails";
+import { getOrdersAPI } from "../../api/ordersApi";
+import OrderDetails from "../../components/dashboard/OrderDetails";
 
 function Orders() {
     const navigate = useNavigate();

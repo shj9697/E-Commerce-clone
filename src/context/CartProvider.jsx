@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { addToCartAPI, getCartAPI, productDeleteFromCartAPI, updateCartItemAPI } from "../api/cartapi";
+import { addToCartAPI, getCartAPI, productDeleteFromCartAPI, updateCartItemAPI } from "../api/cartApi";
 import toast from "react-hot-toast";
 import { useAuth } from "./AuthProvider";
 
@@ -20,7 +20,6 @@ export function CartProvider({ children }) {
         const cartData = await getCartAPI();
         if (!cancelled) {
           if (cartData.status) setCart(cartData.data);
-          else setError(cartData.message);
         }
       } catch (err) {
         if (!cancelled) setError(err.message);

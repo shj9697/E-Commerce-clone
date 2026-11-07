@@ -1,7 +1,7 @@
 import { ChevronDown, Heart, Lock, LogOut, UserRound } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthProvider";
+import { useAuth } from "../../context/AuthProvider";
 
 
 function ProfileDropdown() {

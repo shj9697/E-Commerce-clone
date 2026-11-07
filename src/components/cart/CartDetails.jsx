@@ -1,7 +1,7 @@
 import { useState } from "react";
-import CartSummary from "./cartSummary";
-import Payment from "./payment";
-import AddressDetails from "./AddressDetails";
+import CartSummary from "./CartSummary";
+import Payment from "./Payment";
+import AddressDetails from "../../pages/dashboard/AddressDetails";
 
 const CartDetails = () => {
     const [step, setStep] = useState(0);

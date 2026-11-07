@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import ProductCard from "./ProductCard";
-import { useAuth } from "../context/AuthProvider";
+import ProductCard from "../../components/common/ProductCard";
+import { useAuth } from "../../context/AuthProvider";
 
 function Wishlist() {
     const navigate = useNavigate();

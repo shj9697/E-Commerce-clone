@@ -2,7 +2,7 @@ import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { getProductDetailsAPI, searchProductsAPI } from "../api/productapi";
+import { getProductDetailsAPI, searchProductsAPI } from "../../api/productApi";
 
 function SearchBar({ isMobile, onSelect }) {
     const navigate = useNavigate();

@@ -2,14 +2,14 @@ import { User, ShoppingCart, Search, X, Menu, ChevronDown, MoveUpRight } from "l
 import CategoryDropdown from "./CategoryDropdown";
 import SearchBar from "./SearchBar";
 import { Link, useNavigate } from "react-router-dom";
-import { useCart } from "../context/CartProvider";
+import { useCart } from "../../context/CartProvider";
 import { useEffect, useState } from "react";
-import { getProductCategoriesAPI } from "../api/productCategoriesApi";
-import Registration from "./registration";
-import { useAuth } from "../context/AuthProvider";
+import { getProductCategoriesAPI } from "../../api/productCategoriesApi";
+import Registration from "../common/Registration";
+import { useAuth } from "../../context/AuthProvider";
 import ProfileDropdown from "./ProfileDropdown";
 import SideBarModal from "./SideBarModal";
-import { brandIcon, brandLogo } from "./brandImages";
+import { brandIcon, brandLogo } from "../../assets/brandImages";
 
 const Navbar = () => {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useAuth } from "../context/AuthProvider";
-import { updateMeAPI } from "../api/authentication";
+import { useAuth } from "../../context/AuthProvider";
+import { updateMeAPI } from "../../api/authentication";
 
 
 function Profile() {

@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import Breadcrumb from "../component/Breadcrumb";
+import Breadcrumb from "../components/common/Breadcrumb";
 import { useEffect, useState } from "react";
-import ProductCard from "../component/ProductCard";
-import Filter from "../component/Filter";
+import ProductCard from "../components/common/ProductCard";
+import Filter from "../components/common/Filter";
 import { getProductsAPI, getProductCategoriesBySlugAPI, getProductCategoriesBySubSlugAPI } from "../api/productCategoriesApi";
 import { ArrowUpDown, SlidersHorizontal } from "lucide-react";
 

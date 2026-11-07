@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import Breadcrumb from "../component/Breadcrumb";
+import Breadcrumb from "../components/common/Breadcrumb";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y } from "swiper/modules";
 import "swiper/css";
@@ -8,13 +8,13 @@ import "swiper/css/navigation";
 import { Heart, MapPin } from "lucide-react";
 import { useCart } from "../context/CartProvider";
 import { useAuth } from "../context/AuthProvider";
-import ProductCard from "../component/ProductCard";
-import { getProductDetailsAPI, getRelatedProductsAPI } from "../api/productapi";
+import ProductCard from "../components/common/ProductCard";
+import { getProductDetailsAPI, getRelatedProductsAPI } from "../api/productApi";
 import { getPincodeAPI } from "../api/home";
 
 function ProductDetailsPage() {
     const navigate = useNavigate();
-    const { parentId, subId, productId } = useParams();
+    const { categorySlug, subCategorySlug, productId } = useParams();
     const similarSwiperRef = useRef(null);
     const alsoLikeSwiperRef = useRef(null);
     const [pincode, setPincode] = useState(700000);
@@ -154,9 +154,9 @@ function ProductDetailsPage() {
         <section>
             <Breadcrumb
                 paths={[
-                    { title: productDetails?.categoryRef?.name ?? parentId, link: `/categories/${parentId}` },
-                    { title: productDetails?.subcategoryRef?.name ?? subId, link: `/categories/${parentId}/${subId}` },
-                    { title: productDetails?.title ?? productId, link: `/categories/${parentId}/${subId}/${productId}` },
+                    { title: productDetails?.categoryRef?.name ?? categorySlug, link: `/categories/${categorySlug}` },
+                    { title: productDetails?.subcategoryRef?.name ?? subCategorySlug, link: `/categories/${categorySlug}/${subCategorySlug}` },
+                    { title: productDetails?.title ?? productId, link: `/categories/${categorySlug}/${subCategorySlug}/${productId}` },
                 ]}
             />
             <div className="flex flex-col justify-between w-full px-8 bg-white lg:flex-row lg:h-135">

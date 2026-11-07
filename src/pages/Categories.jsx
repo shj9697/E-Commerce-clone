@@ -2,9 +2,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import { useEffect, useState } from "react";
-import Breadcrumb from "../component/Breadcrumb";
+import Breadcrumb from "../components/common/Breadcrumb";
 import { getProductCategoriesBySlugAPI } from "../api/productCategoriesApi";
-import SliderItem from "../component/sliderItem";
+import SliderItem from "../components/common/SliderItem";
 
 function Categories() {
 	const navigate = useNavigate();

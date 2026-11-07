@@ -1,16 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import SliderItem from "./sliderItem";
+import SliderItem from "../common/SliderItem";
 
-function Luggage({ list = [], loading = false }) {
+function DealOfTheDayCards({ list = [], loading = false }) {
   const navigate = useNavigate();
 
   function handleViewProduct() {
-    navigate("/categories/luggage");
+    navigate("/deal-of-the-day")
   }
 
   return (
     <SliderItem
-      title={"Luggage & Suitcases"}
+      title={"Deal Of The Day"}
       list={list}
       loading={loading}
       handleViewAll={handleViewProduct}
@@ -18,4 +18,4 @@ function Luggage({ list = [], loading = false }) {
   );
 }
 
-export default Luggage;
+export default DealOfTheDayCards;

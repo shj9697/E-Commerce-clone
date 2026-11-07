@@ -1,11 +1,11 @@
-import Breadcrumb from "../component/Breadcrumb";
+import Breadcrumb from "../components/common/Breadcrumb";
 import { useEffect, useState } from "react";
-import ProductCard from "../component/ProductCard";
-import Filter from "../component/Filter";
+import ProductCard from "../components/common/ProductCard";
+import Filter from "../components/common/Filter";
 import { getProductsAPI } from "../api/productCategoriesApi";
 import { ArrowUpDown, SlidersHorizontal } from "lucide-react";
 
-function Embose() {
+function Emboss() {
     const [sortBy, setSortBy] = useState("relevance");
     const [category, setCategory] = useState("");
     const [subCategory, setSubCategory] = useState("");
@@ -143,4 +143,4 @@ function Embose() {
     );
 }
 
-export default Embose;
+export default Emboss;

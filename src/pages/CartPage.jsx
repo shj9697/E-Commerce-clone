@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useCart } from "../context/CartProvider";
-import CartItem from "../component/cartItem";
-import CartDetails from "../component/cartDetails";
+import CartItem from "../components/cart/CartItem";
+import CartDetails from "../components/cart/CartDetails";
 import { useAuth } from "../context/AuthProvider";
 
 

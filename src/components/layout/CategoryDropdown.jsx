@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Dropdown from "./Dropdown";
 import { useEffect, useState } from "react";
-import { getProductCategoriesAPI } from "../api/productCategoriesApi";
+import { getProductCategoriesAPI } from "../../api/productCategoriesApi";
 
 function CategoryDropdown() {
 	const navigate = useNavigate();

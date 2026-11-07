@@ -1,16 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import SliderItem from "./sliderItem";
+import SliderItem from "../common/SliderItem";
 
-function BestSellers({ list = [], loading = false }) {
+
+function TrendingNow({ list = [], loading = false }) {
   const navigate = useNavigate();
 
   function handleViewProduct() {
-    navigate("/best-sellers")
+    navigate("/trending");
   }
-
   return (
     <SliderItem
-      title={"Best Sellers"}
+      title={"Trending Now"}
       list={list}
       loading={loading}
       handleViewAll={handleViewProduct}
@@ -18,4 +18,4 @@ function BestSellers({ list = [], loading = false }) {
   );
 }
 
-export default BestSellers;
+export default TrendingNow;

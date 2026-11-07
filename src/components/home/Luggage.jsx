@@ -1,16 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import SliderItem from "./sliderItem";
+import SliderItem from "../common/SliderItem";
 
-
-function TrendingNow({ list = [], loading = false }) {
+function Luggage({ list = [], loading = false }) {
   const navigate = useNavigate();
 
   function handleViewProduct() {
-    navigate("/trending");
+    navigate("/categories/luggage");
   }
+
   return (
     <SliderItem
-      title={"Trending Now"}
+      title={"Luggage & Suitcases"}
       list={list}
       loading={loading}
       handleViewAll={handleViewProduct}
@@ -18,4 +18,4 @@ function TrendingNow({ list = [], loading = false }) {
   );
 }
 
-export default TrendingNow;
+export default Luggage;

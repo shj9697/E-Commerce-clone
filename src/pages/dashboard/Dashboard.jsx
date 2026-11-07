@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link, NavLink, useNavigate, useOutlet, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import { useAuth } from "../context/AuthProvider";
+import { useAuth } from "../../context/AuthProvider";
 import Profile from "./Profile";
 import { ArrowLeft, Heart, LogOut, MapPinHouse, Package, UserPen } from "lucide-react";
 

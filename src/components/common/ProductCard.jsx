@@ -1,6 +1,6 @@
 import { Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthProvider';
+import { useAuth } from '../../context/AuthProvider';
 
 const ProductCard = ({ item, loading = false }) => {
 

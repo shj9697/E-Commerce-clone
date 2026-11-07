@@ -1,9 +1,9 @@
 import { CircleSmall, CreditCard } from "lucide-react";
-import { useCart } from "../context/CartProvider";
+import { useCart } from "../../context/CartProvider";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { createRazorpayOrderAPI, getPaymentConfigAPI, placeOrderAPI, verifyRazorpayPaymentAPI } from "../api/paymentApi";
+import { createRazorpayOrderAPI, getPaymentConfigAPI, placeOrderAPI, verifyRazorpayPaymentAPI } from "../../api/paymentApi";
 
 const Payment = ({ addressId }) => {
 

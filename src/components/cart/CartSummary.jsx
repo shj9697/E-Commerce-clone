@@ -1,5 +1,5 @@
 import { ShoppingCart } from "lucide-react";
-import { useCart } from "../context/CartProvider";
+import { useCart } from "../../context/CartProvider";
 
 const CartSummary = ({ handleChooseAddress }) => {
 

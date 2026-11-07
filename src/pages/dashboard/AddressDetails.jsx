@@ -1,12 +1,12 @@
 import { House, PencilIcon, Trash } from "lucide-react";
-import ModalBox from "./ModalBox";
+import ModalBox from "../../components/common/ModalBox";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import { GetState, GetCity } from "react-country-state-city";
-import { addAddressAPI, deleteAddressAPI, getAddressesAPI, updateAddressAPI } from "../api/addressApi";
+import { addAddressAPI, deleteAddressAPI, getAddressesAPI, updateAddressAPI } from "../../api/addressApi";
 
 const countryId = 101; // India
 

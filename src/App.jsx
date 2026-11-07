@@ -5,28 +5,28 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { AuthProvider } from "./context/AuthProvider";
 import { CartProvider } from "./context/CartProvider";
-import Navbar from "./component/Navbar";
-import Footer from "./component/Footer";
-import Dashboard from "./component/Dashboard";
-import Profile from "./component/Profile";
-import Orders from "./component/Orders";
-import Wishlist from "./component/Wishlist";
-import Address from "./component/Address";
-import AddressDetails from "./component/AddressDetails";
+import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
+import Dashboard from "./pages/dashboard/Dashboard";
+import Profile from "./pages/dashboard/Profile";
+import Orders from "./pages/dashboard/Orders";
+import Wishlist from "./pages/dashboard/Wishlist";
+import Address from "./pages/dashboard/Address";
+import AddressDetails from "./pages/dashboard/AddressDetails";
 import Home from "./pages/Home";
 import Categories from "./pages/Categories";
 import SubCategoriesRoute from "./pages/SubCategoriesRoute";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
-import Embose from "./pages/Embose";
+import Emboss from "./pages/Emboss";
 import Franchise from "./pages/Franchise";
 import BulkContact from "./pages/BulkContact";
 import ContactForm from "./pages/ContactForm";
 import TrackingOrders from "./pages/TrackingOrders";
 import TermsAndCondition from "./pages/TermsAndCondition";
 import ShippingPolicy from "./pages/ShippingPolicy";
-import CartPage from "./pages/cartPage";
+import CartPage from "./pages/CartPage";
 import CollectionContent from "./pages/CollectionContent";
-import NotFound from "./pages/notFound";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -39,8 +39,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/categories/:slug" element={<Categories />} />
               <Route path="/categories/:categorySlug/:subCategorySlug" element={<SubCategoriesRoute />} />
-              <Route path="/categories/:parentId/:subId/:productId" element={<ProductDetailsPage />} />
-              <Route path="/emboss" element={<Embose />} />
+              <Route path="/categories/:categorySlug/:subCategorySlug/:productId" element={<ProductDetailsPage />} />
+              <Route path="/emboss" element={<Emboss />} />
               <Route path="/franchise" element={<Franchise />} />
               <Route path="/bulkContact" element={<BulkContact />} />
               <Route path="/ContactForm" element={<ContactForm />} />

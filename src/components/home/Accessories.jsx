@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import SliderItem from "./sliderItem";
-
-
+import SliderItem from "../common/SliderItem";
 
 const Accessories = ({ list = [], loading = false }) => {
     const navigate = useNavigate();

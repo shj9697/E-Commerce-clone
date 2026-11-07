@@ -1,14 +1,14 @@
-import Banner from '../component/Banner';
-import Banner2 from '../component/Banner2';
-import AboutUs from '../component/AboutUs';
-import HeroSection from '../component/HeroSection';
+import Banner from '../components/home/Banner';
+import Banner2 from '../components/home/Banner2';
+import AboutUs from '../components/home/AboutUs';
+import HeroSection from '../components/home/HeroSection';
 import { useEffect, useState } from 'react';
 import { getHomePageContentAPI } from '../api/home';
-import DealOfTheDayCards from '../component/DealOfTheDayCards';
-import TrendingNow from '../component/trendingNow';
-import BestSellers from '../component/bestSellers';
-import Luggage from '../component/luggage';
-import Accessories from '../component/accessories';
+import DealOfTheDayCards from '../components/home/DealOfTheDayCards';
+import TrendingNow from '../components/home/TrendingNow';
+import BestSellers from '../components/home/BestSellers';
+import Luggage from '../components/home/Luggage';
+import Accessories from '../components/home/Accessories';
 
 function Home() {
   const [homePageContent, setHomePageContent] = useState([]);

@@ -1,16 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import SliderItem from "./sliderItem";
+import SliderItem from "../common/SliderItem";
 
-function DealOfTheDayCards({ list = [], loading = false }) {
+function BestSellers({ list = [], loading = false }) {
   const navigate = useNavigate();
 
   function handleViewProduct() {
-    navigate("/deal-of-the-day")
+    navigate("/best-sellers")
   }
 
   return (
     <SliderItem
-      title={"Deal Of The Day"}
+      title={"Best Sellers"}
       list={list}
       loading={loading}
       handleViewAll={handleViewProduct}
@@ -18,4 +18,4 @@ function DealOfTheDayCards({ list = [], loading = false }) {
   );
 }
 
-export default DealOfTheDayCards;
+export default BestSellers;

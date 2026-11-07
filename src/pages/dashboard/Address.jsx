@@ -1,8 +1,8 @@
 import { Pencil, PencilIcon, Plus, Trash } from "lucide-react";
-import AddressPage from "./AddressPage";
+import AddressPage from "../../components/dashboard/AddressPage";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { addAddressAPI, deleteAddressAPI, getAddressesAPI, updateAddressAPI } from "../api/addressApi";
+import { addAddressAPI, deleteAddressAPI, getAddressesAPI, updateAddressAPI } from "../../api/addressApi";
 
 function Address() {
 
@@ -21,7 +21,6 @@ function Address() {
                 const addressData = await getAddressesAPI();
                 if (!cancelled) {
                     if (addressData.status) setAddresses(addressData.data);
-                    else setError(addressData.message);
                 }
             } catch (err) {
                 if (!cancelled) setError(err.message);

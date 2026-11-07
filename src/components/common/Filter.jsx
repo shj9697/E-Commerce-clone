@@ -1,6 +1,6 @@
 import { ListFilter } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { getProductCategoriesAPI, getProductCategoriesBySlugAPI } from '../api/productCategoriesApi';
+import { getProductCategoriesAPI, getProductCategoriesBySlugAPI } from '../../api/productCategoriesApi';
 
 const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, handleCategoryBy, handleSubCategoryBy, handleReset, handleIsEmbossableBy, handleStock, embossable, stock }) => {
 
