@@ -27,8 +27,18 @@ const CollectionContent = () => {
         return () => { cancelled = true; };
     }, [slug]);
     if (loading) {
-        return <p>Loading......</p>
+        return (
+            <div className="p-8 bg-white">
+                <div className="h-7 w-48 rounded bg-gray-300 animate-pulse"></div>
+                <div className="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mt-4">
+                    {Array.from({ length: 12 }).map((placeholder, index) => (
+                        <ProductCard key={index} loading />
+                    ))}
+                </div>
+            </div>
+        )
     }
+
     if (error) {
         return <p>Error : {error}</p>
     };

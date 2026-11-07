@@ -2,7 +2,6 @@ import { Bell, Box, Mail, MapPin, Phone, UserRound } from "lucide-react";
 
 function OrderDetails(orderInfo) {
     const order = orderInfo.order;
-    console.log(order)
     return (
         <div className="bg-[#f5f5f5] p-6">
             {order.items.map((item) => (

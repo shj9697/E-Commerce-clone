@@ -39,7 +39,6 @@ function ProductDetailsPage() {
                 setLoading(true);
                 setError(null);
                 const productDetails = await getProductDetailsAPI(productId);
-                console.log(productDetails)
                 const data = await getRelatedProductsAPI(productId);
                 if (!cancelled) {
                     setSimilar(data.similar);
@@ -74,7 +73,7 @@ function ProductDetailsPage() {
     };
 
     const corporateContact = () => {
-        navigate(`/bulkContact?SKU`);
+        navigate("/bulkContact");
     }
 
     const handleImages = (index) => {
@@ -89,26 +88,45 @@ function ProductDetailsPage() {
 
     if (loading) {
         return (
-            <section className="flex flex-col justify-between w-full px-8 bg-white lg:flex-row lg:h-135">
-                <div className="flex flex-col-reverse lg:flex-row w-full lg:w-1/2 xl:w-[45%] pt-3">
-                    <div className="flex flex-row lg:flex-col justify-center lg:justify-start gap-2">
-                        <div className="w-16 h-16 rounded-lg bg-gray-300 animate-pulse" />
-                        <div className="w-16 h-16 rounded-lg bg-gray-300 animate-pulse" />
-                        <div className="w-16 h-16 rounded-lg bg-gray-300 animate-pulse" />
-                        <div className="w-16 h-16 rounded-lg bg-gray-300 animate-pulse" />
-                    </div>
-                    <div className="w-full my-4 lg:flex-1 lg:mx-4 lg:my-10">
-                        <div className="h-90 rounded-md bg-gray-300 animate-pulse" />
+            <section>
+                <div className="w-full bg-[#f7f7f7] px-8">
+                    <div className="flex items-center h-[50px]">
+                        <div className="h-4 w-64 rounded bg-gray-300 animate-pulse" />
                     </div>
                 </div>
-                <div className="w-full lg:flex-1 py-10">
-                    <div className="h-8 w-3/4 mb-4 rounded bg-gray-300 animate-pulse" />
-                    <div className="h-8 w-1/3 mb-8 rounded bg-gray-300 animate-pulse" />
-                    <div className="h-10 w-24 mb-8 rounded bg-gray-300 animate-pulse" />
-                    <div className="h-4 w-full mb-2 rounded bg-gray-300 animate-pulse" />
-                    <div className="h-4 w-full mb-2 rounded bg-gray-300 animate-pulse" />
-                    <div className="h-4 w-2/3 rounded bg-gray-300 animate-pulse" />
+                <div className="flex flex-col justify-between w-full px-8 bg-white lg:flex-row lg:h-135">
+                    <div className="flex flex-col-reverse lg:flex-row w-full lg:w-1/2 xl:w-[45%] pt-3">
+                        <div className="flex flex-row lg:flex-col justify-center lg:justify-start gap-2">
+                            <div className="w-16 h-16 rounded-lg bg-gray-300 animate-pulse" />
+                            <div className="w-16 h-16 rounded-lg bg-gray-300 animate-pulse" />
+                            <div className="w-16 h-16 rounded-lg bg-gray-300 animate-pulse" />
+                            <div className="w-16 h-16 rounded-lg bg-gray-300 animate-pulse" />
+                        </div>
+                        <div className="w-full my-4 lg:flex-1 lg:mx-4 lg:my-10">
+                            <div className="h-90 rounded-md bg-gray-300 animate-pulse" />
+                        </div>
+                    </div>
+                    <div className="w-full lg:flex-1 py-10">
+                        <div className="h-8 w-3/4 mb-4 rounded bg-gray-300 animate-pulse" />
+                        <div className="h-8 w-1/3 mb-8 rounded bg-gray-300 animate-pulse" />
+                        <div className="h-10 w-24 mb-8 rounded bg-gray-300 animate-pulse" />
+                        <div className="h-4 w-full mb-2 rounded bg-gray-300 animate-pulse" />
+                        <div className="h-4 w-full mb-2 rounded bg-gray-300 animate-pulse" />
+                        <div className="h-4 w-2/3 rounded bg-gray-300 animate-pulse" />
+                    </div>
                 </div>
+                {[1, 2].map((sectionNumber) => (
+                    <div key={sectionNumber} className="m-4 p-3 rounded-md bg-white">
+                        <div className="h-7 w-48 rounded bg-gray-300 animate-pulse" />
+                        <div className="flex gap-5 py-4 overflow-hidden">
+                            {[1, 2, 3, 4, 5, 6].map((placeholder) => (
+                                <div key={placeholder} className="w-60 shrink-0">
+                                    <ProductCard loading />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ))}
             </section>
         );
     }

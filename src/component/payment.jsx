@@ -112,7 +112,19 @@ const Payment = ({ addressId }) => {
     // Razorpay: handleOrder → payWithRazorpay → (user pays) → verifyPayment → finishOrder
 
     if (loading) {
-        return <p>Loading......</p>
+        return (
+            <div className="w-full flex flex-col gap-4 animate-pulse">
+                <div className="flex items-center gap-2">
+                    <div className="h-6 w-6 rounded bg-gray-200" />
+                    <div className="h-4 w-36 bg-gray-200 rounded" />
+                </div>
+                <div className="flex flex-col gap-3 border border-gray-100 rounded p-3">
+                    <div className="h-4 w-40 bg-gray-200 rounded" />
+                    <div className="h-4 w-56 bg-gray-200 rounded" />
+                </div>
+                <div className="h-12 w-full bg-gray-200 rounded" />
+            </div>
+        )
     }
     if (error) {
         return <p>Error : {error}</p>

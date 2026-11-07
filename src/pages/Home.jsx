@@ -27,7 +27,7 @@ function Home() {
         if (!cancelled) setError(err.message);
       } finally {
         if (!cancelled) setLoading(false);
-      } z
+      }
     }
     load();
     return () => { cancelled = true; };

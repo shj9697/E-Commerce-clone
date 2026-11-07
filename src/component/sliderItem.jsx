@@ -72,32 +72,13 @@ const SliderItem = ({ title, handleViewAll, list, loading = false }) => {
                         ?
                         Array.from({ length: 6 }).map((placeholder, index) => (
                             <SwiperSlide key={index} className="w-full">
-                                <div
-                                    className="cursor-pointer p-2 h-80"
-                                    style={{
-                                        borderTop: "1px solid rgba(0,0,0,.03)",
-                                        borderLeft: "1px solid rgba(0,0,0,.1)",
-                                        boxShadow: "1px 2px 3px rgba(0,0,0,.2)"
-                                    }}
-                                >
-                                    <div className='relative flex justify-between'>
-                                        <img className="h-45 min-w-0 rounded-md w-full bg-gray-300 animate-pulse" />
-                                    </div>
-                                    <div className="mt-3">
-                                        <p className="h-4 w-full mb-2 rounded bg-gray-300 animate-pulse"></p>
-                                        <p className="h-4 w-1/2 mb-2 rounded bg-gray-300 animate-pulse"></p>
-                                        <div className="flex items-center gap-2">
-                                            <p className="h-4 w-12 rounded bg-gray-300 animate-pulse"></p>
-                                            <span className="h-4 w-10 rounded bg-gray-300 animate-pulse"></span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <ProductCard loading />
                             </SwiperSlide>
                         ))
                         :
                         list.map((item) => (
                             <SwiperSlide key={item.id} className="w-full">
-                                <ProductCard item={item} loading={loading} />
+                                <ProductCard item={item} />
                             </SwiperSlide>
                         ))}
                 </Swiper>

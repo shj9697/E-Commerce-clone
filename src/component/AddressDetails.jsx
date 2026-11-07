@@ -115,7 +115,29 @@ const AddressDetails = ({ handleChoosePayment }) => {
         handleChoosePayment?.(selectedAddressId);
     };
 
-    if (loading) return <p>Loading......</p>;
+    if (loading) {
+        return (
+            <div className="w-full bg-white rounded animate-pulse">
+                <div className="flex items-center gap-2">
+                    <div className="h-6 w-6 rounded-full bg-gray-200" />
+                    <div className="h-4 w-32 bg-gray-200 rounded" />
+                </div>
+                {[1, 2].map((rowNumber) => (
+                    <div key={rowNumber} className="flex items-start gap-2 w-full bg-gray-100 rounded p-4 my-2">
+                        <div className="mt-1 size-4 shrink-0 rounded-full bg-gray-200" />
+                        <div className="flex flex-col gap-2 w-full">
+                            <div className="h-3 w-32 bg-gray-200 rounded" />
+                            <div className="h-3 w-3/4 bg-gray-200 rounded" />
+                            <div className="h-3 w-1/2 bg-gray-200 rounded" />
+                            <div className="h-3 w-40 bg-gray-200 rounded" />
+                        </div>
+                    </div>
+                ))}
+                <div className="h-10 w-full bg-gray-200 rounded" />
+                <div className="h-10 w-full bg-gray-200 rounded my-2" />
+            </div>
+        )
+    }
     if (error) return <p>Error : {error}</p>;
 
     return (

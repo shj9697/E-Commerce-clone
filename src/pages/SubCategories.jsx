@@ -37,7 +37,6 @@ function SubCategories() {
 				};
 				const productListData = await getProductsAPI(params);
 				const categoryData = await getProductCategoriesBySlugAPI(category);
-				console.log(categoryData)
 				const subCategorydata = await getProductCategoriesBySubSlugAPI(category, subCategory);
 				if (!cancelled) {
 					setData({

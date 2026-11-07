@@ -44,7 +44,24 @@ function Embose() {
     }, [category, subCategory, currentPage, sortBy, stock]);
 
     if (loading && !data) {
-        return <p>Loading......</p>
+        return (
+            <div className="w-full bg-white px-4 pb-16 md:px-8 md:pb-0">
+                <div className="h-8 w-48 my-3 bg-gray-200 rounded animate-pulse" />
+                <div className="bg-white py-5 w-full flex flex-col gap-6 md:flex-row md:gap-10">
+                    <div className="hidden md:flex w-full shrink-0 md:w-50 lg:w-70 flex-col gap-2 animate-pulse">
+                        <div className="h-8 w-full bg-gray-200 rounded" />
+                        <div className="h-28 w-full bg-gray-200 rounded-md" />
+                        <div className="h-48 w-full bg-gray-200 rounded-md" />
+                        <div className="h-24 w-full bg-gray-200 rounded-md" />
+                    </div>
+                    <div className="flex-1 min-w-0 grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
+                        {Array.from({ length: 8 }).map((placeholder, index) => (
+                            <ProductCard key={index} loading />
+                        ))}
+                    </div>
+                </div>
+            </div>
+        )
     }
     if (error) {
         return <p>Error : {error}</p>

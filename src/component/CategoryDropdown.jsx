@@ -42,14 +42,18 @@ function CategoryDropdown() {
 				>
 					New Arrivals
 				</Link>
-				{categories.map((item) => (
-					<Dropdown
-						key={item.id}
-						title={item.name}
-						list={item.children.sort((a, b) => a.sortOrder - b.sortOrder)}
-						slug={item.slug}
-					/>
-				))}
+				{loading
+					? [1, 2, 3, 4, 5].map((placeholder) => (
+						<div key={placeholder} className="h-4 w-20 bg-gray-200 rounded animate-pulse" />
+					))
+					: categories.map((item) => (
+						<Dropdown
+							key={item.id}
+							title={item.name}
+							list={item.children.sort((a, b) => a.sortOrder - b.sortOrder)}
+							slug={item.slug}
+						/>
+					))}
 				<Link
 					to="/sale"
 					className="text-[15px] text-[#fb641b] font-semibold"
@@ -62,9 +66,9 @@ function CategoryDropdown() {
 					onClick={() => navigate("/emboss")}>
 					Emboss
 				</Link>
-				<Link to="/corporate gifting"
+				<Link to="/bulkContact"
 					className="text-[15px] font-semibold"
-					onClick={() => navigate("/Corporate Gifting")}>
+					onClick={() => navigate("/bulkContact")}>
 					Corporate Gifting
 				</Link>
 				<Link to="/franchise"
@@ -82,13 +86,17 @@ function CategoryDropdown() {
 									<img src={`https://marfit-ea7ba.web.app/static/media/new.23972988.png`} className="h-full w-full object-contain" />
 								</div>
 							</Link>
-							{categories.map((category) => (
-								<Link key={category.id} to={`/categories/${category.slug}`}>
-									<div className="h-27 w-20">
-										<img src={category.imageUrl} className="h-full w-full object-contain" />
-									</div>
-								</Link>
-							))}
+							{loading
+								? [1, 2, 3, 4].map((placeholder) => (
+									<div key={placeholder} className="h-27 w-20 shrink-0 bg-gray-200 rounded animate-pulse" />
+								))
+								: categories.map((category) => (
+									<Link key={category.id} to={`/categories/${category.slug}`}>
+										<div className="h-27 w-20">
+											<img src={category.imageUrl} className="h-full w-full object-contain" />
+										</div>
+									</Link>
+								))}
 							<Link to={`/sale`}>
 								<div className="h-27 w-20">
 									<img src={`https://marfit-ea7ba.web.app/static/media/sale.814e30f3.png`} className="h-full w-full object-contain" />

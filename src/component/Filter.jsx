@@ -92,16 +92,20 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
                     />
                     <span>All</span>
                 </div>
-                {(data?.categoryData || []).map((item) => (
-                    <div key={item.id} className="flex items-center gap-2">
-                        <input
-                            type="checkbox"
-                            checked={category === item.slug}
-                            onChange={() => handleCategoryBy(item.slug)}
-                        />
-                        <span>{item.name}</span>
-                    </div>
-                ))}
+                {loading && !data
+                    ? [1, 2, 3, 4].map((placeholder) => (
+                        <div key={placeholder} className="h-4 w-32 my-0.5 bg-gray-200 rounded animate-pulse" />
+                    ))
+                    : data.categoryData.map((item) => (
+                        <div key={item.id} className="flex items-center gap-2">
+                            <input
+                                type="checkbox"
+                                checked={category === item.slug}
+                                onChange={() => handleCategoryBy(item.slug)}
+                            />
+                            <span>{item.name}</span>
+                        </div>
+                    ))}
             </div>
 
             {category && (
@@ -115,16 +119,20 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
                         />
                         <span>All</span>
                     </div>
-                    {(data?.subCategoryData || []).map((item) => (
-                        <div key={item.id} className="flex items-center gap-2">
-                            <input
-                                type="checkbox"
-                                checked={subCategory === item.slug}
-                                onChange={() => handleSubCategoryBy(item.slug)}
-                            />
-                            <span>{item.name}</span>
-                        </div>
-                    ))}
+                    {loading && !data
+                        ? [1, 2, 3].map((placeholder) => (
+                            <div key={placeholder} className="h-4 w-28 my-0.5 bg-gray-200 rounded animate-pulse" />
+                        ))
+                        : data.subCategoryData.map((item) => (
+                            <div key={item.id} className="flex items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    checked={subCategory === item.slug}
+                                    onChange={() => handleSubCategoryBy(item.slug)}
+                                />
+                                <span>{item.name}</span>
+                            </div>
+                        ))}
                 </div>
             )}
 
