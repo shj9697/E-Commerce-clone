@@ -58,8 +58,7 @@ function SubCategories() {
 	if (loading && !data.productListData) {
 		return (
 			<div className="w-full bg-white px-4 pb-16 md:px-8 md:pb-0 animate-pulse">
-				<Breadcrumb className="h-8 w-full bg-gray-200 rounded" />
-				<div className="w-full h-[50px] bg-gray-100"></div>
+				<Breadcrumb loading />
 				<div className="bg-white py-5 w-full flex flex-col gap-6 md:flex-row md:gap-10">
 					<div className="hidden md:flex w-full shrink-0 md:w-50 lg:w-70 flex-col gap-2">
 						<div className="h-8 w-full bg-gray-200 rounded"></div>
@@ -81,6 +80,7 @@ function SubCategories() {
 			</div>
 		)
 	}
+
 	if (error) {
 		return <p>Error : {error}</p>
 	};
@@ -139,10 +139,20 @@ function SubCategories() {
 				/>
 				<div className="flex flex-col flex-1 min-w-0 pb-4 gap-6">
 					<div className="w-full grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
-						{(data?.productListData?.products || []).map(item => (
-							<ProductCard item={item} key={item.id} />
-						))}
+						{loading
+							? Array.from({ length: 8 }).map((_, index) => (
+								<div key={index} className="p-2 h-80 animate-pulse">
+									<div className="h-45 w-full bg-gray-200 rounded-md"></div>
+									<div className="h-4 w-full mt-3 bg-gray-200 rounded"></div>
+									<div className="h-4 w-1/2 mt-2 bg-gray-200 rounded"></div>
+									<div className="h-4 w-1/3 mt-2 bg-gray-200 rounded"></div>
+								</div>
+							))
+							: (data?.productListData?.products || []).map(item => (
+								<ProductCard item={item} key={item.id} />
+							))}
 					</div>
+
 					<div className="flex justify-center items-center px-2 gap-2">
 						<button disabled={currentPage <= 1} className="bg-[#fb641b] text-white px-6 py-2 cursor-pointer disabled:bg-white" onClick={handlePrevPage}> Prev</button>
 						<h1>Page {currentPage} of {data?.productListData?.totalPages || 1}</h1>

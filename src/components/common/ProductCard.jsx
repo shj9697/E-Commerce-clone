@@ -24,7 +24,7 @@ const ProductCard = ({ item, loading = false }) => {
     return (
         <div
 
-            className="cursor-pointer p-2 h-80"
+            className="cursor-pointer p-4 h-80"
             style={{
                 borderTop: "1px solid rgba(0,0,0,.03)",
                 borderLeft: "1px solid rgba(0,0,0,.1)",

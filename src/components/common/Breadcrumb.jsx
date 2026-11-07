@@ -1,7 +1,17 @@
 import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
-function Breadcrumb({ paths }) {
+function Breadcrumb({ paths, loading = false }) {
+  if (loading) return (
+    <div className="w-full bg-[#f7f7f7] px-8">
+      <div className="flex items-center gap-2 w-[85%] h-[50px]">
+        <div className="h-4 w-12 rounded bg-gray-300 animate-pulse" />
+        <ChevronRight size={16} className="text-gray-300" />
+        <div className="h-4 w-28 rounded bg-gray-300 animate-pulse" />
+      </div>
+    </div>
+  );
+
   return (
     <div className="w-full bg-[#f7f7f7] px-8">
       <div className="flex items-center gap-2 w-[85%] h-[50px]">
