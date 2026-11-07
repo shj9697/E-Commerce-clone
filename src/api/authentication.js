@@ -5,11 +5,7 @@ export async function getAuthenticationAPI(email, password, name) {
         const res = await api.post("/api/auth/register", { email, password, name });
         return {
             status: true,
-            data: {
-                email: res.data?.data?.user?.email,
-                password: res.data?.data?.user?.hasPassword,
-                name: res.data?.data?.user?.name
-            }
+            data: res.data?.data?.user
         };
     } catch (error) {
         return { status: false, message: error.response?.data?.error?.message };

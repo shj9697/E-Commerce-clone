@@ -7,6 +7,7 @@ import { AuthProvider } from "./context/AuthProvider";
 import { CartProvider } from "./context/CartProvider";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
+import ScrollToTop from "./components/layout/ScrollToTop";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Profile from "./pages/dashboard/Profile";
 import Orders from "./pages/dashboard/Orders";
@@ -16,7 +17,7 @@ import AddressDetails from "./pages/dashboard/AddressDetails";
 import Home from "./pages/Home";
 import Categories from "./pages/Categories";
 import SubCategoriesRoute from "./pages/SubCategoriesRoute";
-import ProductDetailsPage from "./pages/ProductDetailsPage";
+import ProductDetailsRoute from "./pages/ProductDetailsRoute";
 import Emboss from "./pages/Emboss";
 import Franchise from "./pages/Franchise";
 import BulkContact from "./pages/BulkContact";
@@ -32,6 +33,7 @@ function App() {
   return (
     <div className="w-full bg-[#eef0f3]">
       <BrowserRouter>
+        <ScrollToTop />
         <AuthProvider>
           <CartProvider>
             <Navbar />
@@ -39,7 +41,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/categories/:slug" element={<Categories />} />
               <Route path="/categories/:categorySlug/:subCategorySlug" element={<SubCategoriesRoute />} />
-              <Route path="/categories/:categorySlug/:subCategorySlug/:productId" element={<ProductDetailsPage />} />
+              <Route path="/categories/:categorySlug/:subCategorySlug/:productId" element={<ProductDetailsRoute />} />
               <Route path="/emboss" element={<Emboss />} />
               <Route path="/franchise" element={<Franchise />} />
               <Route path="/bulkContact" element={<BulkContact />} />

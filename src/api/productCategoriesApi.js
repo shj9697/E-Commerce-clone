@@ -3,10 +3,10 @@ import api from "./client";
 export async function getProductCategoriesAPI() {
     try {
         const res = await api.get(`/api/categories`);
-
-        return {
-            categories: res.data.data.sort((a, b) => a.sortOrder - b.sortOrder),
-        };
+        // Sorted once here, so components can render the lists without sorting (and changing) them
+        const categories = res.data.data.sort((a, b) => a.sortOrder - b.sortOrder);
+        categories.forEach((category) => category.children.sort((a, b) => a.sortOrder - b.sortOrder));
+        return { categories };
     } catch (error) {
         return {
             categories: [],

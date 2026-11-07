@@ -2,8 +2,7 @@ import { Link } from "react-router-dom";
 
 function Banner2({ imgUrl, path, loading = false }) {
 
-    if (!imgUrl) return null;
-
+    // Checked first: while loading there is no imgUrl yet, so the null check would hide the skeleton
     if (loading) {
         return (
             <div className="pt-2 relative lg:w-full">
@@ -12,10 +11,12 @@ function Banner2({ imgUrl, path, loading = false }) {
         )
     }
 
+    if (!imgUrl) return null;
+
     return (
         <Link to={path} >
             <div className="relative bg-white">
-                <img src={imgUrl} />
+                <img src={imgUrl} alt="Banner" />
             </div>
         </Link>
     )

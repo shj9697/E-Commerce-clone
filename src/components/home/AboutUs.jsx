@@ -2,8 +2,7 @@ import { Link } from "react-router-dom";
 
 function AboutUs({ leftContent = null, rightContent = null, loading = false }) {
 
-  if (!leftContent && !rightContent) return null;
-
+  // Checked first: while loading there is no content yet, so the null check would hide the skeleton
   if (loading) {
     return (
       <div className="pt-2 relative lg:w-full">
@@ -12,17 +11,22 @@ function AboutUs({ leftContent = null, rightContent = null, loading = false }) {
     )
   }
 
+  if (!leftContent && !rightContent) return null;
+
+  // Each side is drawn only when the server sent it, so one missing side can't crash the home page
   return (
     <div className="flex">
-      <div className="hidden md:block w-1/3">
-        <Link to={leftContent.linkUrl} className="block h-full">
-          <img
-            src={leftContent.imageUrl}
-            alt=""
-            className="w-full h-full object-center md:object-fill"
-          />
-        </Link>
-      </div>
+      {leftContent && (
+        <div className="hidden md:block w-1/3">
+          <Link to={leftContent.linkUrl} className="block h-full">
+            <img
+              src={leftContent.imageUrl}
+              alt=""
+              className="w-full h-full object-center md:object-fill"
+            />
+          </Link>
+        </div>
+      )}
       <div className="w-full md:w-1/3 min-h-60 md:min-h-0 py-10 md:py-0 lg:py-6 bg-black flex flex-col justify-center items-center">
         <div className="mb-4 lg:mb-6">
           <img
@@ -39,15 +43,17 @@ function AboutUs({ leftContent = null, rightContent = null, loading = false }) {
           niche value.
         </p>
       </div>
-      <div className="hidden md:block w-1/3">
-        <Link to={rightContent.linkUrl} className="block h-full">
-          <img
-            src={rightContent.imageUrl}
-            alt=""
-            className="w-full h-full object-center md:object-fill"
-          />
-        </Link>
-      </div>
+      {rightContent && (
+        <div className="hidden md:block w-1/3">
+          <Link to={rightContent.linkUrl} className="block h-full">
+            <img
+              src={rightContent.imageUrl}
+              alt=""
+              className="w-full h-full object-center md:object-fill"
+            />
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

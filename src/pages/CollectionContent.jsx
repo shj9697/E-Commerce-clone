@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getCollectionBySlugAPI } from "../api/collectionsApi";
 import ProductCard from "../components/common/ProductCard";
+import NotFound from "./NotFound";
 
 const CollectionContent = () => {
     const { slug } = useParams();
@@ -15,8 +16,11 @@ const CollectionContent = () => {
             try {
                 setLoading(true);
                 setError(null);
-                const data = await getCollectionBySlugAPI(slug);
-                if (!cancelled) setData(data.data);
+                const result = await getCollectionBySlugAPI(slug);
+                if (cancelled) return;
+                setData(result.data);
+                // A slug with no collection shows NotFound; any other failure (server down, network) shows the error
+                if (!result.data && !result.notFound) setError(result.message);
             } catch (err) {
                 if (!cancelled) setError(err.message);
             } finally {
@@ -42,6 +46,9 @@ const CollectionContent = () => {
     if (error) {
         return <p>Error : {error}</p>
     };
+
+    // /:slug catches every one-segment URL, so a slug with no collection is a wrong address
+    if (!data) return <NotFound />;
 
     return (
 

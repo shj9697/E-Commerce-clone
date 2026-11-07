@@ -1,10 +1,9 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Dropdown from "./Dropdown";
 import { useEffect, useState } from "react";
 import { getProductCategoriesAPI } from "../../api/productCategoriesApi";
 
 function CategoryDropdown() {
-	const navigate = useNavigate();
 	const [categories, setCategories] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
@@ -38,7 +37,6 @@ function CategoryDropdown() {
 				<Link
 					to="/new-arrival"
 					className="text-[15px] text-[#fb641b] font-semibold whitespace-nowrap"
-					onClick={() => navigate("/new-arrival")}
 				>
 					New Arrivals
 				</Link>
@@ -50,30 +48,26 @@ function CategoryDropdown() {
 						<Dropdown
 							key={item.id}
 							title={item.name}
-							list={item.children.sort((a, b) => a.sortOrder - b.sortOrder)}
+							list={item.children}
 							slug={item.slug}
 						/>
 					))}
 				<Link
 					to="/sale"
 					className="text-[15px] text-[#fb641b] font-semibold"
-					onClick={() => navigate("/sale")}
 				>
 					Sale
 				</Link>
 				<Link to="/emboss"
-					className="text-[15px] font-semibold"
-					onClick={() => navigate("/emboss")}>
+					className="text-[15px] font-semibold">
 					Emboss
 				</Link>
 				<Link to="/bulkContact"
-					className="text-[15px] font-semibold"
-					onClick={() => navigate("/bulkContact")}>
+					className="text-[15px] font-semibold">
 					Corporate Gifting
 				</Link>
 				<Link to="/franchise"
-					className="text-[15px] font-semibold"
-					onClick={() => navigate("/franchise")}>
+					className="text-[15px] font-semibold">
 					Franchise Contact
 				</Link>
 			</div>

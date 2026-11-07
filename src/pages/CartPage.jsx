@@ -44,7 +44,7 @@ const CartPage = () => {
         <div className="w-full lg:px-2">
             {cart.items.length === 0 ?
                 <div className="flex items-center justify-center gap-3 flex-col p-5 w-full h-96 my-36">
-                    <h1 className="text-4xl sm:text-[14px] text-gray-900 whitespace-nowrap">Your cart is empty</h1>
+                    <h1 className="text-2xl sm:text-4xl text-gray-900 whitespace-nowrap">Your cart is empty</h1>
                     <p className="text-center text-base text-gray-700">Add items in your cart and come back later to process checkout.</p>
                     <button className="bg-[#FB6B25] text-white p-4 rounded-md cursor-pointer whitespace-nowrap" onClick={() => Homepage()}>Continue to shopping</button>
                 </div>

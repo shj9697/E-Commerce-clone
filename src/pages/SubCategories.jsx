@@ -14,6 +14,7 @@ function SubCategories() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [stock, setStock] = useState(true);
 	const [embossable, setEmbossable] = useState(false);
+	const [priceRange, setPriceRange] = useState([0, 10000]);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 	const [isSortOpen, setIsSortOpen] = useState(false);
 	const [data, setData] = useState([]);
@@ -33,7 +34,10 @@ function SubCategories() {
 					subCategory: subCategory,
 					sort: sortBy,
 					embossable: embossable,
-					inStock: stock
+					inStock: stock,
+					minPrice: priceRange[0],
+					// The slider's top (10000) means "no upper limit", so pricier products still show
+					maxPrice: priceRange[1] < 10000 ? priceRange[1] : undefined
 				};
 				const productListData = await getProductsAPI(params);
 				const categoryData = await getProductCategoriesBySlugAPI(category);
@@ -53,7 +57,7 @@ function SubCategories() {
 		}
 		load();
 		return () => { cancelled = true; };
-	}, [category, subCategory, currentPage, sortBy, embossable, stock]);
+	}, [category, subCategory, currentPage, sortBy, embossable, stock, priceRange]);
 
 	if (loading && !data.productListData) {
 		return (
@@ -67,7 +71,7 @@ function SubCategories() {
 						<div className="h-24 w-full bg-gray-200 rounded-md"></div>
 					</div>
 					<div className="flex-1 min-w-0 grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
-						{Array.from({ length: 8 }).map((index) => (
+						{Array.from({ length: 8 }).map((placeholder, index) => (
 							<div key={index} className="p-2 h-80">
 								<div className="h-45 w-full bg-gray-200 rounded-md"></div>
 								<div className="h-4 w-full mt-3 bg-gray-200 rounded"></div>
@@ -91,6 +95,7 @@ function SubCategories() {
 	const handleSubCategoryBy = (value) => { setSubCategory(value); setCurrentPage(1); };
 	const handleIsEmbossableBy = (value) => { setEmbossable(value); setCurrentPage(1); };
 	const handleStock = (value) => { setStock(value); setCurrentPage(1); };
+	const handlePriceRange = (value) => { setPriceRange(value); setCurrentPage(1); };
 
 	// Back to the category and subcategory in the URL
 	const handleReset = () => {
@@ -99,6 +104,7 @@ function SubCategories() {
 		setSubCategory(subCategorySlug);
 		setEmbossable(false);
 		setStock(true);
+		setPriceRange([0, 10000]);
 		setCurrentPage(1);
 	};
 
@@ -136,11 +142,13 @@ function SubCategories() {
 					handleIsEmbossableBy={handleIsEmbossableBy}
 					stock={stock}
 					handleStock={handleStock}
+					priceRange={priceRange}
+					handlePriceRange={handlePriceRange}
 				/>
 				<div className="flex flex-col flex-1 min-w-0 pb-4 gap-6">
 					<div className="w-full grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
 						{loading
-							? Array.from({ length: 8 }).map((_, index) => (
+							? Array.from({ length: 8 }).map((placeholder, index) => (
 								<div key={index} className="p-2 h-80 animate-pulse">
 									<div className="h-45 w-full bg-gray-200 rounded-md"></div>
 									<div className="h-4 w-full mt-3 bg-gray-200 rounded"></div>

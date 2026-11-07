@@ -1,4 +1,4 @@
-import { CircleSmall, CreditCard } from "lucide-react";
+import { CreditCard } from "lucide-react";
 import { useCart } from "../../context/CartProvider";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -136,19 +136,32 @@ const Payment = ({ addressId }) => {
                 <CreditCard className="text-green-500" />
                 <h1 className="text-[#fb6b25]">CHOOSE PAYMENT</h1>
             </div>
-            <div className="flex flex-col border border-gray-100 rounded h-15 px-2">
+            {/* Real radio inputs, so the options work with Tab/Space and screen readers, and each has visible text */}
+            <div className="flex flex-col gap-2 border border-gray-100 rounded p-2">
                 {paymentConfig.cod && (
-                    <div className="flex items-center gap-2" onClick={() => setPaymentMethod("cod")}>
-                        <CircleSmall className={`text-white ${paymentMethod === "cod" ? "fill-[#fb6b25]" : " border border-black bg-white rounded-[50%] w-3 h-3 mx-2"}`} />
-                        <h1>Cash On Delivery </h1>
-                    </div>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            checked={paymentMethod === "cod"}
+                            onChange={() => setPaymentMethod("cod")}
+                            className="accent-[#fb6b25] cursor-pointer"
+                        />
+                        <span>Cash On Delivery</span>
+                    </label>
                 )}
                 {paymentConfig.razorpay && (
-                    <div className="flex items-center" onClick={() => setPaymentMethod("razorpay")}>
-                        <CircleSmall className={`w-3 h-3 mx-2 rounded-full border text-white ${paymentMethod === "razorpay" ? "bg-[#fb6b25] border-[#fb6b25]" : "bg-white border-black"}`} />
+                    <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            checked={paymentMethod === "razorpay"}
+                            onChange={() => setPaymentMethod("razorpay")}
+                            className="accent-[#fb6b25] cursor-pointer"
+                        />
                         <img src="https://marfit-ea7ba.web.app/static/media/razorpay.cb9bcca7.png" alt="" className="h-12 w-20" />
-                        <p className="text-[14px] text-gray-500 whitespace-nowrap">Pay via razorpay ₹ 15 off</p>
-                    </div>
+                        <span>Pay via Razorpay</span>
+                    </label>
                 )}
             </div>
             <button

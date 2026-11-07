@@ -10,6 +10,7 @@ function Emboss() {
     const [category, setCategory] = useState("");
     const [subCategory, setSubCategory] = useState("");
     const [stock, setStock] = useState(true);
+    const [priceRange, setPriceRange] = useState([0, 10000]);
     const [currentPage, setCurrentPage] = useState(1);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isSortOpen, setIsSortOpen] = useState(false);
@@ -30,7 +31,10 @@ function Emboss() {
                     subCategory: subCategory,
                     sort: sortBy,
                     embossable: true,
-                    inStock: stock
+                    inStock: stock,
+                    minPrice: priceRange[0],
+                    // The slider's top (10000) means "no upper limit", so pricier products still show
+                    maxPrice: priceRange[1] < 10000 ? priceRange[1] : undefined
                 });
                 if (!cancelled) setData(productListData);
             } catch (err) {
@@ -41,7 +45,7 @@ function Emboss() {
         }
         load();
         return () => { cancelled = true; };
-    }, [category, subCategory, currentPage, sortBy, stock]);
+    }, [category, subCategory, currentPage, sortBy, stock, priceRange]);
 
     if (loading && !data) {
         return (
@@ -72,12 +76,14 @@ function Emboss() {
     const handleCategoryBy = (value) => { setCategory(value); setSubCategory(""); setCurrentPage(1); };
     const handleSubCategoryBy = (value) => { setSubCategory(value); setCurrentPage(1); };
     const handleStock = (value) => { setStock(value); setCurrentPage(1); };
+    const handlePriceRange = (value) => { setPriceRange(value); setCurrentPage(1); };
 
     const handleReset = () => {
         setSortBy("relevance");
         setCategory("");
         setSubCategory("");
         setStock(true);
+        setPriceRange([0, 10000]);
         setCurrentPage(1);
     };
 
@@ -97,6 +103,8 @@ function Emboss() {
                     subCategory={subCategory}
                     stock={stock}
                     handleStock={handleStock}
+                    priceRange={priceRange}
+                    handlePriceRange={handlePriceRange}
                 />
                 <div className="flex flex-col flex-1 min-w-0 pb-4 gap-6">
                     <div className="w-full grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">

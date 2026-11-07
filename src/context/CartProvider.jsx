@@ -10,6 +10,8 @@ export function CartProvider({ children }) {
   const [cart, setCart] = useState({ items: [], totalItems: 0, totalAmount: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // A profile update replaces the user object; only signing in or out should reload the cart
+  const loggedIn = !!user;
 
   useEffect(() => {
     let cancelled = false;
@@ -29,59 +31,51 @@ export function CartProvider({ children }) {
     }
     load();
     return () => { cancelled = true; };
-  }, [user]);
+  }, [loggedIn]);
 
   const addToCart = async (productId, quantity = 1) => {
     if (!user) {
       toast.error("Please login");
       return false;
     }
+    // The cart API never throws; a failure comes back as status: false with the server's message
     setLoading(true);
-    try {
-      const response = await addToCartAPI(productId, quantity);
-      if (response.status) {
-        setCart(response.data);
-        toast.success("Item added to Cart");
-      }
-    } catch (err) {
-      setError(err.message);
-      toast.error('There was an error');
-    } finally {
-      setLoading(false);
+    const response = await addToCartAPI(productId, quantity);
+    setLoading(false);
+    if (!response.status) {
+      toast.error(response.message);
+      return false;
     }
+    setCart(response.data);
+    toast.success("Item added to Cart");
+    return true;
   };
 
   const removeFromCart = async (productId) => {
     const checkQuantity = cart.items.find((cartItems) => cartItems.productId === productId);
     setLoading(true);
-    try {
-      const response = await updateCartItemAPI(productId, checkQuantity?.quantity - 1);
-      if (response.status) {
-        setCart(response.data);
-        toast.success('Item removed from cart');
-      }
-    } catch (err) {
-      setError(err.message);
-      toast.error('There was an error');
-    } finally {
-      setLoading(false);
+    const response = await updateCartItemAPI(productId, checkQuantity?.quantity - 1);
+    setLoading(false);
+    if (!response.status) {
+      toast.error(response.message);
+      return false;
     }
+    setCart(response.data);
+    toast.success('Item removed from cart');
+    return true;
   };
 
   const productDeleteFromCart = async (productId) => {
     setLoading(true);
-    try {
-      const response = await productDeleteFromCartAPI(productId);
-      if (response.status) {
-        setCart(response.data);
-        toast.success('Item removed from cart');
-      }
-    } catch (err) {
-      setError(err.message);
-      toast.error('There was an error');
-    } finally {
-      setLoading(false);
+    const response = await productDeleteFromCartAPI(productId);
+    setLoading(false);
+    if (!response.status) {
+      toast.error(response.message);
+      return false;
     }
+    setCart(response.data);
+    toast.success('Item removed from cart');
+    return true;
   };
 
   // Placing an order empties the cart on the server, so reload it afterwards

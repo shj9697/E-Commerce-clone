@@ -39,14 +39,14 @@ function Footer() {
               <div className="">
                 <h1 className="md:text-[14px] lg:text-[14px] text-white text-[17px] font-normal ">SUPPORT</h1>
                 <div className="md:leading-5 md:mt-2 lg:leading-8 text-gray-500 leading-9">
-                  <Link to="tel:+919875555937" className="md:text-[14px] lg:text-[14px] flex items-center whitespace-nowrap gap-1">
+                  <a href="tel:+919875555937" className="md:text-[14px] lg:text-[14px] flex items-center whitespace-nowrap gap-1">
                     <Phone className="size-4" />
                     <p className="text-sm md:text-base">+91 98755 55937</p>
-                  </Link>
-                  <Link to="mailto:info@marfit.com" className=" md:text-[14px] lg:text-[14px] flex items-center whitespace-nowrap gap-1">
+                  </a>
+                  <a href="mailto:info@marfit.in" className=" md:text-[14px] lg:text-[14px] flex items-center whitespace-nowrap gap-1">
                     <Mail className="md:size-4 size-5" />
                     <p className="text-sm md:text-base">info@marfit.in</p>
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

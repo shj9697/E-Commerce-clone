@@ -211,7 +211,6 @@ const Navbar = () => {
                 <div className={isThisCategoryOpen ? "flex flex-col" : "hidden"}>
                   <ul>
                     {category.children
-                      .sort((a, b) => a.sortOrder - b.sortOrder)
                       .map(child => (
                         <li key={child.id}>
                           <Link

@@ -20,8 +20,9 @@ const Registration = ({ isOpen, closeModal }) => {
         reset();
     }
 
-    const onError = () => {
-        toast.error("Not a valid email");
+    // Shows the message of the first field that failed
+    const onError = (errors) => {
+        toast.error(Object.values(errors)[0].message);
     };
 
     const handleInputChange = (e) => {
@@ -43,6 +44,8 @@ const Registration = ({ isOpen, closeModal }) => {
                     toast.error(result.message || "Registration failed");
                     return;
                 }
+                // The server signs the new user in, so show them as logged in
+                setUser(result.data);
                 toast.success("Registered SuccessFully");
                 handleCloseModal();
             } catch {
@@ -98,7 +101,7 @@ const Registration = ({ isOpen, closeModal }) => {
     }
 
     return (
-        <LoginModal isOpen={isOpen} onClose={closeModal}>
+        <LoginModal isOpen={isOpen} onClose={handleCloseModal}>
             <div className="w-full flex items-start justify-center bg-white">
                 <div className="flex items-center mt-6">
                     <img src={brandIcon} className="h-9" />
@@ -121,21 +124,13 @@ const Registration = ({ isOpen, closeModal }) => {
                             <div className="w-full flex items-center border-0 border-b-2 border-b-[#fb641b] mt-4">
                                 <input
                                     type="text"
-                                    placeholder="Referral Code (Optional)"
-                                    className="border-gray-400 outline-0 py-2 text-[12px] flex-1"
-                                    {...register("referralCode")}
-                                />
-                            </div>
-
-                            <div className="w-full flex items-center border-0 border-b-2 border-b-[#fb641b] mt-4">
-                                <input
-                                    type="text"
                                     placeholder="Enter Mail Id"
                                     className="border-gray-400 outline-0 py-2 text-[12px] flex-1"
                                     {...register("email", {
                                         required: "Not a valid email!",
                                         pattern: {
                                             value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                                            message: "Not a valid email!",
                                         },
                                     })}
                                 />
@@ -149,7 +144,7 @@ const Registration = ({ isOpen, closeModal }) => {
                                     {...register("password", {
                                         required: "Enter Password",
                                         minLength: {
-                                            value: 6,
+                                            value: 8,
                                             message: "Password must be at least 8 characters",
                                         },
                                     })}
@@ -157,7 +152,7 @@ const Registration = ({ isOpen, closeModal }) => {
                             </div>
 
                             <div className="w-full flex items-center border-0 gap-2 mt-4">
-                                <input type="checkbox" disabled={!watch("name") || !watch("email") || !watch("password")} />
+                                <input type="checkbox" disabled={!watch("name") || !watch("email") || !watch("password")} {...register("terms", { required: "Please accept the terms & conditions" })} />
                                 <p className="text-[12px]">I agree to the <span className="text-[#fb641b] text-[12px] cursor-pointer" onClick={() => { window.open("/TermsAndCondition") }}>terms & conditions.</span></p>
                             </div>
 
@@ -203,6 +198,7 @@ const Registration = ({ isOpen, closeModal }) => {
                                                 required: "Not a valid email!",
                                                 pattern: {
                                                     value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$|^\+?[1-9]\d{1,14}$/,
+                                                    message: "Not a valid email or mobile number!",
                                                 },
                                                 onChange: handleInputChange
                                             })}

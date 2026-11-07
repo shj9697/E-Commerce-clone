@@ -67,9 +67,8 @@ function ProductDetailsPage() {
     }
 
     const handleBuyNow = async (productId) => {
-        await addToCart(productId);
         // The server orders the whole cart, so show all of it
-        navigate(`/cart`);
+        if (await addToCart(productId, quantity)) navigate(`/cart`);
     };
 
     const corporateContact = () => {
@@ -144,10 +143,8 @@ function ProductDetailsPage() {
         img: productDetails.images?.[0]?.url,
     }
 
-    const handleQuantityChange = async (e) => {
-        const selectedQuantity = Number(e.target.value);
-        setQuantity(selectedQuantity);
-        await addToCart(productId, selectedQuantity);
+    const handleQuantityChange = (e) => {
+        setQuantity(Number(e.target.value));
     };
 
     return (
@@ -180,7 +177,7 @@ function ProductDetailsPage() {
                             </div>
                             <div className="hidden lg:flex justify-center gap-5 mt-5">
                                 <button className="px-9 py-2 bg-white cursor-pointer border-2 border-[#fb641b] whitespace-nowrap hover:-translate-y-2 transition-transform duration-200 ease-out"
-                                    onClick={() => addToCart(productId)}>ADD TO CART</button>
+                                    onClick={() => addToCart(productId, quantity)}>ADD TO CART</button>
                                 <button className="px-9 py-2 bg-[#fb641b] text-white cursor-pointer whitespace-nowrap hover:-translate-y-2 transition-transform duration-200 ease-out"
                                     onClick={() => handleBuyNow(productId)}>BUY NOW</button>
                             </div>
@@ -423,7 +420,7 @@ function ProductDetailsPage() {
                 </div>
             </div>
             <div className="lg:hidden sticky bottom-0 z-1 flex justify-center gap-5 md:px-10 p-3 bg-white">
-                <button className="flex-1 py-2 bg-white cursor-pointer border-2 border-[#fb641b] whitespace-nowrap hover:-translate-y-2 transition-transform duration-200 ease-out" onClick={() => addToCart(productId)}>ADD TO CART</button>
+                <button className="flex-1 py-2 bg-white cursor-pointer border-2 border-[#fb641b] whitespace-nowrap hover:-translate-y-2 transition-transform duration-200 ease-out" onClick={() => addToCart(productId, quantity)}>ADD TO CART</button>
                 <button className="flex-1 py-2 bg-[#fb641b] text-white cursor-pointer whitespace-nowrap hover:-translate-y-2 transition-transform duration-200 ease-out" onClick={() => handleBuyNow(productId)}>BUY NOW</button>
             </div>
         </section >

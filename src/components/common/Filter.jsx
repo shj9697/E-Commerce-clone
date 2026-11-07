@@ -1,12 +1,15 @@
 import { ListFilter } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
 import { getProductCategoriesAPI, getProductCategoriesBySlugAPI } from '../../api/productCategoriesApi';
 
-const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, handleCategoryBy, handleSubCategoryBy, handleReset, handleIsEmbossableBy, handleStock, embossable, stock }) => {
+const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, handleCategoryBy, handleSubCategoryBy, handleReset, handleIsEmbossableBy, handleStock, embossable, stock, priceRange, handlePriceRange }) => {
 
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [range, setRange] = useState(priceRange);
 
     useEffect(() => {
         let cancelled = false;
@@ -32,6 +35,9 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
         return () => { cancelled = true; };
     }, [category, subCategory]);
 
+    useEffect(() => {
+        setRange(priceRange);
+    }, [priceRange]); // follows Reset
 
     if (error) {
         return <p>Error : {error}</p>
@@ -158,6 +164,27 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
                     <span>In Stock</span>
                 </div>
             </div>
+
+
+            {/* Arrow keys only fire onInput, so apply the price when the key is released */}
+            <div className="border border-gray-200 rounded-md p-4 my-2" onKeyUp={(event) => event.key.startsWith("Arrow") && handlePriceRange(range)}>
+                <h1>PRICE RANGE</h1>
+                <RangeSlider
+                    min={0}
+                    max={10000}
+                    step={100}
+                    value={range}
+                    onInput={setRange}
+                    onThumbDragEnd={() => handlePriceRange(range)}
+                    onRangeDragEnd={() => handlePriceRange(range)}
+                    className="my-4 w-full h-1! bg-gray-200! [&_.range-slider\_\_range]:bg-[#fb641b]! [&_.range-slider\_\_thumb]:bg-[#fb641b]! [&_.range-slider\_\_thumb]:size-4!"
+                />
+                <div className="flex justify-between w-full">
+                    <span>₹{range[0]}</span>
+                    <span>₹{range[1]}{range[1] === 10000 && "+"}</span>
+                </div>
+            </div>
+
 
             <div className="md:hidden sticky bottom-0 mt-auto flex gap-3 bg-white pt-3">
                 <button onClick={handleReset} className="flex-1 py-3 border border-gray-300 rounded cursor-pointer">CLEAR ALL</button>

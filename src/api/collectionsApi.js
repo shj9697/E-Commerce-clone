@@ -9,6 +9,7 @@ export async function getCollectionBySlugAPI(slug) {
     } catch (err) {
         return {
             data: null,
+            notFound: err.response?.status === 404,
             message: err.response?.data?.error?.message || err.message
         };
     }
