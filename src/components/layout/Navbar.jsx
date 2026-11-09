@@ -20,6 +20,7 @@ const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [MenuOpen, setMenuOpen] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [error, setError] = useState(null);
   const [expandedCategoryId, setExpandedCategoryId] = useState(null);
 
   function toggleCategory(categoryId) {
@@ -38,12 +39,16 @@ const Navbar = () => {
         if (!cancelled)
           setCategories(data.categories);
       } catch (err) {
-        console.error(err);
+        if (!cancelled) setError(err.message);
       }
     }
     load();
     return () => { cancelled = true; };
   }, []);
+
+  if (error) {
+    return <p>Error : {error}</p>
+  };
 
   function handleViewCart() {
     navigate("/cart")

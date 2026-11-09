@@ -91,6 +91,7 @@ function CategoryPage() {
 					<SliderItem
 						title={"Latest Products in " + (data?.name || "")}
 						list={data?.latestProducts || []}
+						loading={loading}
 					/>
 				</div>
 			</div>

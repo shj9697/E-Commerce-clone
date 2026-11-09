@@ -6,10 +6,9 @@ import ProductCard from "./ProductCard";
 const SliderItem = ({ title, handleViewAll, list = [], loading = false }) => {
     const swiperRef = useRef(null);
 
-
     return (
         <div className="p-3 rounded-md bg-white w-full">
-            {loading ? (
+            {loading ?
                 <div className="flex items-center justify-between">
                     <div className="flex flex-col">
                         <h1 className="h-5 w-40 rounded bg-gray-300 animate-pulse"></h1>
@@ -24,7 +23,7 @@ const SliderItem = ({ title, handleViewAll, list = [], loading = false }) => {
                         <span className="h-9 w-24 rounded bg-gray-300 animate-pulse"></span>
                     )}
                 </div>
-            ) : (
+                :
                 <div className="flex items-center justify-between">
                     <div className="flex flex-col">
                         <h1 className="text-base md:text-xl">{title}</h1>
@@ -44,7 +43,7 @@ const SliderItem = ({ title, handleViewAll, list = [], loading = false }) => {
                         </button>
                     )}
                 </div>
-            )}
+            }
 
             <div className="relative w-full">
                 <Swiper

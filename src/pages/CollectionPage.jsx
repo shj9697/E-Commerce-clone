@@ -17,10 +17,7 @@ const CollectionPage = () => {
                 setLoading(true);
                 setError(null);
                 const result = await getCollectionBySlugAPI(slug);
-                if (cancelled) return;
-                setData(result.data);
-                // A slug with no collection shows NotFound; any other failure (server down, network) shows the error
-                if (!result.data && !result.notFound) setError(result.message);
+                if (!cancelled) setData(result.data);
             } catch (err) {
                 if (!cancelled) setError(err.message);
             } finally {
