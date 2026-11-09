@@ -6,7 +6,7 @@ import NotFoundPage from "./NotFoundPage";
 
 const CollectionPage = () => {
     const { slug } = useParams();
-    const [data, setData] = useState({ title: "", products: [] });
+    const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
