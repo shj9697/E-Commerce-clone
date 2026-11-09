@@ -9,8 +9,7 @@ import { Heart, MapPin } from "lucide-react";
 import { useCart } from "../context/CartProvider";
 import { useAuth } from "../context/AuthProvider";
 import ProductCard from "../components/common/ProductCard";
-import { getProductDetailsAPI, getRelatedProductsAPI } from "../api/productApi";
-import { getPincodeAPI } from "../api/home";
+import { getPincodeAPI, getProductDetailsAPI, getRelatedProductsAPI } from "../api/productApi";
 
 function ProductDetailsPage() {
     const navigate = useNavigate();

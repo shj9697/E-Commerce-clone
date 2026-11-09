@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { addToWishlistAPI, getWishlistAPI, googleLoginAPI, logoutAPI, meAPI, removeFromWishlistAPI } from "../api/authentication";
+import { googleLoginAPI, logoutAPI, meAPI } from "../api/authApi";
+import { addToWishlistAPI, getWishlistAPI, removeFromWishlistAPI } from "../api/wishlistApi";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 

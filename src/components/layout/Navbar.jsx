@@ -5,11 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartProvider";
 import { useEffect, useState } from "react";
 import { getProductCategoriesAPI } from "../../api/productCategoriesApi";
-import Registration from "../common/Registration";
+import AuthModal from "../common/AuthModal";
 import { useAuth } from "../../context/AuthProvider";
 import ProfileDropdown from "./ProfileDropdown";
 import SideBarModal from "./SideBarModal";
-import { brandIcon, brandLogo } from "../../assets/brandImages";
+import brandIcon from "../../assets/brand-icon.png";
+import brandLogo from "../../assets/brand-logo.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -254,7 +255,7 @@ const Navbar = () => {
         </nav>
       </SideBarModal>
       {/* Login/Signup Model */}
-      <Registration isOpen={isOpen} closeModal={() => setIsOpen(false)} />
+      <AuthModal isOpen={isOpen} closeModal={() => setIsOpen(false)} />
     </>
   );
 };

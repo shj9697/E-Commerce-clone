@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CartSummary from "./CartSummary";
 import Payment from "./Payment";
-import AddressDetails from "../../pages/dashboard/AddressDetails";
+import AddressStep from "./AddressStep";
 
 const CartDetails = () => {
     const [step, setStep] = useState(0);
@@ -56,7 +56,7 @@ const CartDetails = () => {
                 </div>
                 <div className="w-full p-4">
                     {step === 0 && <CartSummary handleChooseAddress={handleChooseAddress} />}
-                    {step === 1 && <AddressDetails handleChoosePayment={handleChoosePayment} />}
+                    {step === 1 && <AddressStep handleChoosePayment={handleChoosePayment} />}
                     {step === 2 && <Payment addressId={checkoutAddressId} />}
                 </div>
             </div>
