@@ -21,7 +21,8 @@ export function CartProvider({ children }) {
         setError(null);
         const cartData = await getCartAPI();
         if (!cancelled) {
-          if (cartData.status) setCart(cartData.data);
+          if (cartData.status)
+            setCart(cartData.data);
         }
       } catch (err) {
         if (!cancelled) setError(err.message);

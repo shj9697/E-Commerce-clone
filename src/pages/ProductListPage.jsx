@@ -8,18 +8,17 @@ import { ArrowUpDown, SlidersHorizontal } from "lucide-react";
 
 function ProductListPage() {
 	const { categorySlug, subCategorySlug } = useParams();
-	const [sortBy, setSortBy] = useState("relevance");
-	const [category, setCategory] = useState(categorySlug);
-	const [subCategory, setSubCategory] = useState(subCategorySlug);
-	const [currentPage, setCurrentPage] = useState(1);
-	const [stock, setStock] = useState(true);
-	const [embossable, setEmbossable] = useState(false);
-	const [priceRange, setPriceRange] = useState([0, 10000]);
+	// Reset goes back to the category and subcategory in the URL
+	const defaultFilters = { page: 1, sortBy: "relevance", category: categorySlug, subCategory: subCategorySlug, embossable: false, stock: true, priceRange: [0, 10000] };
+	const [filters, setFilters] = useState(defaultFilters);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 	const [isSortOpen, setIsSortOpen] = useState(false);
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+
+	// Every filter change starts again from page 1
+	const updateFilter = (changes) => setFilters({ ...filters, ...changes, page: 1 });
 
 	useEffect(() => {
 		let cancelled = false;
@@ -27,21 +26,20 @@ function ProductListPage() {
 			try {
 				setLoading(true);
 				setError(null);
-				const params = {
-					page: currentPage,
+				const productListData = await getProductsAPI({
+					page: filters.page,
 					limit: 8,
-					category: category,
-					subCategory: subCategory,
-					sort: sortBy,
-					embossable: embossable,
-					inStock: stock,
-					minPrice: priceRange[0],
+					category: filters.category,
+					subCategory: filters.subCategory,
+					sort: filters.sortBy,
+					embossable: filters.embossable,
+					inStock: filters.stock,
+					minPrice: filters.priceRange[0],
 					// The slider's top (10000) means "no upper limit", so pricier products still show
-					maxPrice: priceRange[1] < 10000 ? priceRange[1] : undefined
-				};
-				const productListData = await getProductsAPI(params);
-				const categoryData = await getProductCategoriesBySlugAPI(category);
-				const subCategorydata = await getProductCategoriesBySubSlugAPI(category, subCategory);
+					maxPrice: filters.priceRange[1] < 10000 ? filters.priceRange[1] : undefined
+				});
+				const categoryData = await getProductCategoriesBySlugAPI(filters.category);
+				const subCategorydata = await getProductCategoriesBySubSlugAPI(filters.category, filters.subCategory);
 				if (!cancelled) {
 					setData({
 						productListData: productListData || null,
@@ -57,68 +55,22 @@ function ProductListPage() {
 		}
 		load();
 		return () => { cancelled = true; };
-	}, [category, subCategory, currentPage, sortBy, embossable, stock, priceRange]);
-
-	if (loading && !data.productListData) {
-		return (
-			<div className="w-full bg-white px-4 pb-16 md:px-8 md:pb-0 animate-pulse">
-				<Breadcrumb loading />
-				<div className="bg-white py-5 w-full flex flex-col gap-6 md:flex-row md:gap-10">
-					<div className="hidden md:flex w-full shrink-0 md:w-50 lg:w-70 flex-col gap-2">
-						<div className="h-8 w-full bg-gray-200 rounded"></div>
-						<div className="h-28 w-full bg-gray-200 rounded-md"></div>
-						<div className="h-48 w-full bg-gray-200 rounded-md"></div>
-						<div className="h-24 w-full bg-gray-200 rounded-md"></div>
-					</div>
-					<div className="flex-1 min-w-0 grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
-						{Array.from({ length: 8 }).map((placeholder, index) => (
-							<div key={index} className="p-2 h-80">
-								<div className="h-45 w-full bg-gray-200 rounded-md"></div>
-								<div className="h-4 w-full mt-3 bg-gray-200 rounded"></div>
-								<div className="h-4 w-1/2 mt-2 bg-gray-200 rounded"></div>
-								<div className="h-4 w-1/3 mt-2 bg-gray-200 rounded"></div>
-							</div>
-						))}
-					</div>
-				</div>
-			</div>
-		)
-	}
+	}, [filters]);
 
 	if (error) {
 		return <p>Error : {error}</p>
 	};
 
-	// Every filter change starts again from page 1
-	const handleSortBy = (value) => { setSortBy(value); setCurrentPage(1); };
-	const handleCategoryBy = (value) => { setCategory(value); setSubCategory(""); setCurrentPage(1); };
-	const handleSubCategoryBy = (value) => { setSubCategory(value); setCurrentPage(1); };
-	const handleIsEmbossableBy = (value) => { setEmbossable(value); setCurrentPage(1); };
-	const handleStock = (value) => { setStock(value); setCurrentPage(1); };
-	const handlePriceRange = (value) => { setPriceRange(value); setCurrentPage(1); };
-
-	// Back to the category and subcategory in the URL
-	const handleReset = () => {
-		setSortBy("relevance");
-		setCategory(categorySlug);
-		setSubCategory(subCategorySlug);
-		setEmbossable(false);
-		setStock(true);
-		setPriceRange([0, 10000]);
-		setCurrentPage(1);
-	};
-
-	const handleNextPage = () => {
-		setCurrentPage(prev => prev + 1);
-	}
-
-	const handlePrevPage = () => {
-		setCurrentPage(prev => prev - 1);
-	}
+	const filler = [
+		{ value: "relevance", label: "Relevance" },
+		{ value: "price-low-to-high", label: "Price: Low to High" },
+		{ value: "price-high-to-low", label: "Price: High to Low" },
+	]
 
 	return (
 		<div className="w-full bg-white px-4 pb-16 md:px-8 md:pb-0">
 			<Breadcrumb
+				loading={!data.productListData}
 				paths={[
 					{ title: data.categoryData?.name, link: `/categories/${categorySlug}` },
 					{
@@ -131,40 +83,22 @@ function ProductListPage() {
 				<Filter
 					isOpen={isFilterOpen}
 					onClose={() => setIsFilterOpen(false)}
-					handleSortBy={handleSortBy}
-					handleCategoryBy={handleCategoryBy}
-					handleSubCategoryBy={handleSubCategoryBy}
-					handleReset={handleReset}
-					sortBy={sortBy}
-					category={category}
-					subCategory={subCategory}
-					embossable={embossable}
-					handleIsEmbossableBy={handleIsEmbossableBy}
-					stock={stock}
-					handleStock={handleStock}
-					priceRange={priceRange}
-					handlePriceRange={handlePriceRange}
+					filters={filters}
+					updateFilter={updateFilter}
+					handleReset={() => setFilters(defaultFilters)}
 				/>
 				<div className="flex flex-col flex-1 min-w-0 pb-4 gap-6">
 					<div className="w-full grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
-						{loading
-							? Array.from({ length: 8 }).map((placeholder, index) => (
-								<div key={index} className="p-2 h-80 animate-pulse">
-									<div className="h-45 w-full bg-gray-200 rounded-md"></div>
-									<div className="h-4 w-full mt-3 bg-gray-200 rounded"></div>
-									<div className="h-4 w-1/2 mt-2 bg-gray-200 rounded"></div>
-									<div className="h-4 w-1/3 mt-2 bg-gray-200 rounded"></div>
-								</div>
-							))
-							: (data?.productListData?.products || []).map(item => (
-								<ProductCard item={item} key={item.id} />
-							))}
+						{loading ?
+							Array.from({ length: 8 }).map((placeholder, index) => <ProductCard key={index} loading />)
+							:
+							(data?.productListData?.products || []).map(item => <ProductCard item={item} key={item.id} />)}
 					</div>
 
 					<div className="flex justify-center items-center px-2 gap-2">
-						<button disabled={currentPage <= 1} className="bg-[#fb641b] text-white px-6 py-2 cursor-pointer disabled:bg-white" onClick={handlePrevPage}> Prev</button>
-						<h1>Page {currentPage} of {data?.productListData?.totalPages || 1}</h1>
-						<button disabled={currentPage >= data?.productListData?.totalPages} className="bg-[#fb641b] text-white px-6 py-2 cursor-pointer disabled:bg-white" onClick={handleNextPage}>Next</button>
+						<button disabled={filters.page <= 1} className="bg-[#fb641b] text-white px-6 py-2 cursor-pointer disabled:bg-white" onClick={() => setFilters({ ...filters, page: filters.page - 1 })}> Prev</button>
+						<h1>Page {filters.page} of {data?.productListData?.totalPages || 1}</h1>
+						<button disabled={filters.page >= data?.productListData?.totalPages} className="bg-[#fb641b] text-white px-6 py-2 cursor-pointer disabled:bg-white" onClick={() => setFilters({ ...filters, page: filters.page + 1 })}>Next</button>
 					</div>
 				</div>
 			</div>
@@ -180,15 +114,11 @@ function ProductListPage() {
 				<div onClick={() => setIsSortOpen(false)} className="md:hidden fixed inset-0 z-50 flex items-end bg-black/40">
 					<div onClick={(event) => event.stopPropagation()} className="w-full bg-white rounded-t-xl p-4">
 						<p className="text-xs text-gray-500 pb-3 border-b border-gray-200">SORT BY</p>
-						{[
-							{ value: "relevance", label: "Relevance" },
-							{ value: "price-low-to-high", label: "Price: Low to High" },
-							{ value: "price-high-to-low", label: "Price: High to Low" },
-						].map(option => (
+						{filler.map(option => (
 							<button
 								key={option.value}
-								onClick={() => { handleSortBy(option.value); setIsSortOpen(false); }}
-								className={`block w-full text-left py-3 cursor-pointer ${sortBy === option.value ? "text-[#fb641b] font-semibold" : "text-gray-700"}`}
+								onClick={() => { updateFilter({ sortBy: option.value }); setIsSortOpen(false); }}
+								className={`block w-full text-left py-3 cursor-pointer ${filters.sortBy === option.value ? "text-[#fb641b] font-semibold" : "text-gray-700"}`}
 							>
 								{option.label}
 							</button>

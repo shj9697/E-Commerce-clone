@@ -6,17 +6,16 @@ import { getProductsAPI } from "../api/productCategoriesApi";
 import { ArrowUpDown, SlidersHorizontal } from "lucide-react";
 
 function EmbossPage() {
-    const [sortBy, setSortBy] = useState("relevance");
-    const [category, setCategory] = useState("");
-    const [subCategory, setSubCategory] = useState("");
-    const [stock, setStock] = useState(true);
-    const [priceRange, setPriceRange] = useState([0, 10000]);
-    const [currentPage, setCurrentPage] = useState(1);
+    const defaultFilters = { page: 1, sortBy: "relevance", category: "", subCategory: "", stock: true, priceRange: [0, 10000] };
+    const [filters, setFilters] = useState(defaultFilters);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isSortOpen, setIsSortOpen] = useState(false);
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    // Every filter change starts again from page 1
+    const updateFilter = (changes) => setFilters({ ...filters, ...changes, page: 1 });
 
     useEffect(() => {
         let cancelled = false;
@@ -25,16 +24,16 @@ function EmbossPage() {
                 setLoading(true);
                 setError(null);
                 const productListData = await getProductsAPI({
-                    page: currentPage,
+                    page: filters.page,
                     limit: 8,
-                    category: category,
-                    subCategory: subCategory,
-                    sort: sortBy,
+                    category: filters.category,
+                    subCategory: filters.subCategory,
+                    sort: filters.sortBy,
                     embossable: true,
-                    inStock: stock,
-                    minPrice: priceRange[0],
+                    inStock: filters.stock,
+                    minPrice: filters.priceRange[0],
                     // The slider's top (10000) means "no upper limit", so pricier products still show
-                    maxPrice: priceRange[1] < 10000 ? priceRange[1] : undefined
+                    maxPrice: filters.priceRange[1] < 10000 ? filters.priceRange[1] : undefined
                 });
                 if (!cancelled) setData(productListData);
             } catch (err) {
@@ -45,7 +44,7 @@ function EmbossPage() {
         }
         load();
         return () => { cancelled = true; };
-    }, [category, subCategory, currentPage, sortBy, stock, priceRange]);
+    }, [filters]);
 
     if (loading && !data) {
         return (
@@ -71,22 +70,6 @@ function EmbossPage() {
         return <p>Error : {error}</p>
     };
 
-    // Every filter change starts again from page 1
-    const handleSortBy = (value) => { setSortBy(value); setCurrentPage(1); };
-    const handleCategoryBy = (value) => { setCategory(value); setSubCategory(""); setCurrentPage(1); };
-    const handleSubCategoryBy = (value) => { setSubCategory(value); setCurrentPage(1); };
-    const handleStock = (value) => { setStock(value); setCurrentPage(1); };
-    const handlePriceRange = (value) => { setPriceRange(value); setCurrentPage(1); };
-
-    const handleReset = () => {
-        setSortBy("relevance");
-        setCategory("");
-        setSubCategory("");
-        setStock(true);
-        setPriceRange([0, 10000]);
-        setCurrentPage(1);
-    };
-
     return (
         <div className="w-full bg-white px-4 pb-16 md:px-8 md:pb-0">
             <Breadcrumb paths={[{ title: "Emboss" }]} />
@@ -94,17 +77,9 @@ function EmbossPage() {
                 <Filter
                     isOpen={isFilterOpen}
                     onClose={() => setIsFilterOpen(false)}
-                    handleSortBy={handleSortBy}
-                    handleCategoryBy={handleCategoryBy}
-                    handleSubCategoryBy={handleSubCategoryBy}
-                    handleReset={handleReset}
-                    sortBy={sortBy}
-                    category={category}
-                    subCategory={subCategory}
-                    stock={stock}
-                    handleStock={handleStock}
-                    priceRange={priceRange}
-                    handlePriceRange={handlePriceRange}
+                    filters={filters}
+                    updateFilter={updateFilter}
+                    handleReset={() => setFilters(defaultFilters)}
                 />
                 <div className="flex flex-col flex-1 min-w-0 pb-4 gap-6">
                     <div className="w-full grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
@@ -113,9 +88,9 @@ function EmbossPage() {
                         ))}
                     </div>
                     <div className="flex justify-center items-center px-2 gap-2">
-                        <button disabled={currentPage <= 1} className="bg-[#fb641b] text-white px-6 py-2 cursor-pointer disabled:bg-white" onClick={() => setCurrentPage(prev => prev - 1)}> Prev</button>
-                        <h1>Page {currentPage} of {data?.totalPages || 1}</h1>
-                        <button disabled={currentPage >= data?.totalPages} className="bg-[#fb641b] text-white px-6 py-2 cursor-pointer disabled:bg-white" onClick={() => setCurrentPage(prev => prev + 1)}>Next</button>
+                        <button disabled={filters.page <= 1} className="bg-[#fb641b] text-white px-6 py-2 cursor-pointer disabled:bg-white" onClick={() => setFilters({ ...filters, page: filters.page - 1 })}> Prev</button>
+                        <h1>Page {filters.page} of {data?.totalPages || 1}</h1>
+                        <button disabled={filters.page >= data?.totalPages} className="bg-[#fb641b] text-white px-6 py-2 cursor-pointer disabled:bg-white" onClick={() => setFilters({ ...filters, page: filters.page + 1 })}>Next</button>
                     </div>
                 </div>
             </div>
@@ -138,8 +113,8 @@ function EmbossPage() {
                         ].map(option => (
                             <button
                                 key={option.value}
-                                onClick={() => { handleSortBy(option.value); setIsSortOpen(false); }}
-                                className={`block w-full text-left py-3 cursor-pointer ${sortBy === option.value ? "text-[#fb641b] font-semibold" : "text-gray-700"}`}
+                                onClick={() => { updateFilter({ sortBy: option.value }); setIsSortOpen(false); }}
+                                className={`block w-full text-left py-3 cursor-pointer ${filters.sortBy === option.value ? "text-[#fb641b] font-semibold" : "text-gray-700"}`}
                             >
                                 {option.label}
                             </button>

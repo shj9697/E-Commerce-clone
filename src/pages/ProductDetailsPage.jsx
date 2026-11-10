@@ -1,21 +1,29 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Breadcrumb from "../components/common/Breadcrumb";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, A11y } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
 import { Heart, MapPin } from "lucide-react";
 import { useCart } from "../context/CartProvider";
 import { useAuth } from "../context/AuthProvider";
-import ProductCard from "../components/common/ProductCard";
+import SliderItem from "../components/common/SliderItem";
 import { getPincodeAPI, getProductDetailsAPI, getRelatedProductsAPI } from "../api/productApi";
+
+const specs = [
+    { label: "Height", value: "32 cm" },
+    { label: "Width", value: "45 cm" },
+    { label: "Thickness", value: "7 cm" },
+    { label: "Model Name", value: "Genuine Leather Laptop Messenger Bag" },
+    { label: "Closure", value: "Zipper" },
+    { label: "Sales Package", value: "1 piece Laptop Messenger Bag" },
+    { label: "Leather Type", value: "Top Grain" },
+    { label: "Weight", value: "700 g" },
+    { label: "Compartments", value: "1 main compartments with with inner slip pockets" },
+    { label: "Covered in Warranty", value: "Warranty Covers Only Manufacturing Defects" },
+    { label: "Domestic Warranty", value: "1 Year" },
+];
 
 function ProductDetailsPage() {
     const navigate = useNavigate();
     const { categorySlug, subCategorySlug, productId } = useParams();
-    const similarSwiperRef = useRef(null);
-    const alsoLikeSwiperRef = useRef(null);
     const [pincode, setPincode] = useState(700000);
     const [message, setMessage] = useState("");
     const [messageType, setMessageType] = useState("");
@@ -113,18 +121,10 @@ function ProductDetailsPage() {
                         <div className="h-4 w-2/3 rounded bg-gray-300 animate-pulse" />
                     </div>
                 </div>
-                {[1, 2].map((sectionNumber) => (
-                    <div key={sectionNumber} className="m-4 p-3 rounded-md bg-white">
-                        <div className="h-7 w-48 rounded bg-gray-300 animate-pulse" />
-                        <div className="flex gap-5 py-4 overflow-hidden">
-                            {[1, 2, 3, 4, 5, 6].map((placeholder) => (
-                                <div key={placeholder} className="w-60 shrink-0">
-                                    <ProductCard loading />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                ))}
+                <div className="flex flex-col gap-4 m-4">
+                    <SliderItem loading />
+                    <SliderItem loading />
+                </div>
             </section>
         );
     }
@@ -217,16 +217,9 @@ function ProductDetailsPage() {
                             <div>
                                 <select value={quantity} onChange={handleQuantityChange} className="w-full h-full text-center cursor-pointer border-2 rounded-md border-gray-500">
                                     <option value="" disabled>Qty</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
+                                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((count) => (
+                                        <option key={count} value={count}>{count}</option>
+                                    ))}
                                 </select>
                             </div>
                         </div>
@@ -250,50 +243,12 @@ function ProductDetailsPage() {
                         BUY 100% Original Leather Products From MARFIT. Leather will long last and will never peel off like an artificial Leather. Customer satisfaction guaranteed. PRODUCT DETAIL : Removable, adjustable nylon long shoulder strap | Metal Hardware : durable enough for daily use Zip-top closure pure genuine leather CFC zipper | Handle type : Fixed solid full grain leather double handle , carried in 3 ways Handbags , Shoulder bag & Satchels . TO PROCESS AND CLAIM WARRANTY : Customer needs to send the product to the MARFIT, Kolkata. The Product will be rectified and send back to the Customer. This warranty shall be void if the product is damaged due to misuse, abuse, physical mishandling or natural causes such as flood, fire, earthquake or other perils.
                     </p>
                     <div className="sm:leading-6 max-sm:text-[14px] md:leading-10">
-                        <div className="flex items-start gap-4">
-                            <h1 className="text-[#878787] shrink-0 w-1/2">Height</h1>
-                            <p className="flex-1">32 cm</p>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <h1 className="text-[#878787] shrink-0 w-1/2">Width</h1>
-                            <p className="flex-1">45 cm</p>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <h1 className="text-[#878787] shrink-0 w-1/2">Thickness</h1>
-                            <p className="flex-1">7 cm</p>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <h1 className="text-[#878787] shrink-0 w-1/2">Model Name</h1>
-                            <p className="flex-1">Genuine Leather Laptop Messenger Bag</p>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <h1 className="text-[#878787] shrink-0 w-1/2">Closure</h1>
-                            <p className="flex-1">Zipper</p>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <h1 className="text-[#878787] shrink-0 w-1/2">Sales Package</h1>
-                            <p className="flex-1">1 piece Laptop Messenger Bag</p>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <h1 className="text-[#878787] shrink-0 w-1/2">Leather Type</h1>
-                            <p className="flex-1">Top Grain</p>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <h1 className="text-[#878787] shrink-0 w-1/2">Weight</h1>
-                            <p className="flex-1">700 g</p>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <h1 className="text-[#878787] shrink-0 w-1/2">Compartments</h1>
-                            <p className="flex-1">1 main compartments with with inner slip pockets</p>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <h1 className="text-[#878787] shrink-0 w-1/2">Covered in Warranty</h1>
-                            <p className="flex-1">Warranty Covers Only Manufacturing Defects</p>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <h1 className="text-[#878787] shrink-0 w-1/2">Domestic Warranty</h1>
-                            <p className="flex-1">1 Year</p>
-                        </div>
+                        {specs.map((spec) => (
+                            <div key={spec.label} className="flex items-start gap-4">
+                                <h1 className="text-[#878787] shrink-0 w-1/2">{spec.label}</h1>
+                                <p className="flex-1">{spec.value}</p>
+                            </div>
+                        ))}
                     </div>
                     <div className="py-4 h-20">
                         <div className="w-full h-0.5 bg-gray-300 mb-4"></div>
@@ -302,121 +257,9 @@ function ProductDetailsPage() {
                     </div>
                 </div>
             </div>
-            <div className="m-4 rounded-md bg-white ">
-                <div className="flex">
-                    <div className="flex flex-col p-3">
-                        <h1 className="text-2xl font-normal">Similar Products</h1>
-                        <div className="flex items-center gap-2 my-1">
-                            <span className="w-15 h-px bg-black"></span>
-                            <span className="w-px h-4 bg-black rotate-45"></span>
-                            <span className="w-px h-4 bg-black rotate-45"></span>
-                            <span className="w-15 h-px bg-black"></span>
-                        </div>
-                    </div>
-                </div>
-                <div className="relative">
-                    <Swiper
-                        modules={[Navigation, A11y]}
-                        onSwiper={(swiper) => (similarSwiperRef.current = swiper)}
-                        spaceBetween={20}
-                        slidesPerView={6}
-                        className="py-4"
-                        breakpoints={{
-                            320: {
-                                slidesPerView: 2,
-                            },
-                            768: {
-                                slidesPerView: 4,
-                            },
-                            1024: {
-                                slidesPerView: 5,
-                            },
-                            1440: {
-                                slidesPerView: 6
-                            }
-                        }}
-                    >
-                        {similar.map((item) => (
-                            <SwiperSlide key={item.id} className="w-60! h-84!">
-                                <ProductCard item={item} />
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                    <button
-                        onClick={() => similarSwiperRef.current?.slidePrev()}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white-600 text-black w-10 h-10 rounded-full shadow-lg flex items-center justify-center transition-colors"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                        </svg>
-                    </button>
-                    <button
-                        onClick={() => similarSwiperRef.current?.slideNext()}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white-900 text-black w-10 h-10 rounded-full shadow-xl flex items-center justify-center transition-colors"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div className="m-4 p-3 rounded-md bg-white ">
-                <div className="flex items-center justify-between">
-                    <div className="flex flex-col">
-                        <h1 className="text-2xl font-normal">You may also like</h1>
-                        <div className="flex items-center gap-2 my-1">
-                            <span className="w-15 h-px bg-black"></span>
-                            <span className="w-px h-4 bg-black rotate-45"></span>
-                            <span className="w-px h-4 bg-black rotate-45"></span>
-                            <span className="w-15 h-px bg-black"></span>
-                        </div>
-                    </div>
-                </div>
-                <div className="relative">
-                    <Swiper
-                        modules={[Navigation, A11y]}
-                        onSwiper={(swiper) => (alsoLikeSwiperRef.current = swiper)}
-                        spaceBetween={20}
-                        slidesPerView={6}
-                        className="py-4"
-                        breakpoints={{
-                            320: {
-                                slidesPerView: 2,
-                            },
-                            768: {
-                                slidesPerView: 4,
-                            },
-                            1024: {
-                                slidesPerView: 5,
-                            },
-                            1440: {
-                                slidesPerView: 6
-                            }
-                        }}
-                    >
-                        {data.map((item) => (
-                            <SwiperSlide key={item.id} className="w-60! h-84!">
-                                <ProductCard item={item} />
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                    <button
-                        onClick={() => alsoLikeSwiperRef.current?.slidePrev()}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white-600 text-black w-10 h-10 rounded-full shadow-lg flex items-center justify-center transition-colors"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                        </svg>
-                    </button>
-                    <button
-                        onClick={() => alsoLikeSwiperRef.current?.slideNext()}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white-900 text-black w-10 h-10 rounded-full shadow-xl flex items-center justify-center transition-colors"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </button>
-                </div>
+            <div className="flex flex-col gap-4 m-4">
+                <SliderItem title="Similar Products" list={similar} />
+                <SliderItem title="You may also like" list={data} />
             </div>
             <div className="lg:hidden sticky bottom-0 z-1 flex justify-center gap-5 md:px-10 p-3 bg-white">
                 <button className="flex-1 py-2 bg-white cursor-pointer border-2 border-[#fb641b] whitespace-nowrap hover:-translate-y-2 transition-transform duration-200 ease-out" onClick={() => addToCart(productId, quantity)}>ADD TO CART</button>

@@ -17,6 +17,7 @@ const CollectionPage = () => {
                 setLoading(true);
                 setError(null);
                 const result = await getCollectionBySlugAPI(slug);
+                console.log(result)
                 if (!cancelled) setData(result.data);
             } catch (err) {
                 if (!cancelled) setError(err.message);

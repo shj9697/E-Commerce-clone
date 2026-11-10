@@ -4,12 +4,12 @@ import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 import { getProductCategoriesAPI, getProductCategoriesBySlugAPI } from '../../api/productCategoriesApi';
 
-const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, handleCategoryBy, handleSubCategoryBy, handleReset, handleIsEmbossableBy, handleStock, embossable, stock, priceRange, handlePriceRange }) => {
+const Filter = ({ isOpen, onClose, filters, updateFilter, handleReset }) => {
 
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [range, setRange] = useState(priceRange);
+    const [range, setRange] = useState(filters.priceRange);
 
     useEffect(() => {
         let cancelled = false;
@@ -18,7 +18,7 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
                 setLoading(true);
                 setError(null);
                 const categoryData = await getProductCategoriesAPI();
-                const subCategorydata = await getProductCategoriesBySlugAPI(category);
+                const subCategorydata = await getProductCategoriesBySlugAPI(filters.category);
                 if (!cancelled) {
                     setData({
                         categoryData: categoryData?.categories || [],
@@ -33,11 +33,11 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
         }
         load();
         return () => { cancelled = true; };
-    }, [category, subCategory]);
+    }, [filters.category, filters.subCategory]);
 
     useEffect(() => {
-        setRange(priceRange);
-    }, [priceRange]); // follows Reset
+        setRange(filters.priceRange);
+    }, [filters.priceRange]); // follows Reset
 
     if (error) {
         return <p>Error : {error}</p>
@@ -63,8 +63,8 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
                 <div className="flex">
                     <input
                         type="checkbox"
-                        checked={sortBy === "relevance"}
-                        onChange={() => handleSortBy("relevance")}
+                        checked={filters.sortBy === "relevance"}
+                        onChange={() => updateFilter({ sortBy: "relevance" })}
                     />
                     <label className="ml-2">RELEVANCE</label>
                 </div>
@@ -72,8 +72,8 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
                 <div className="flex">
                     <input
                         type="checkbox"
-                        checked={sortBy === "price-low-to-high"}
-                        onChange={() => handleSortBy("price-low-to-high")}
+                        checked={filters.sortBy === "price-low-to-high"}
+                        onChange={() => updateFilter({ sortBy: "price-low-to-high" })}
                     />
                     <label className="ml-2">PRICE LOW TO HIGH</label>
                 </div>
@@ -81,8 +81,8 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
                 <div className="flex">
                     <input
                         type="checkbox"
-                        checked={sortBy === "price-high-to-low"}
-                        onChange={() => handleSortBy("price-high-to-low")}
+                        checked={filters.sortBy === "price-high-to-low"}
+                        onChange={() => updateFilter({ sortBy: "price-high-to-low" })}
                     />
                     <label className="ml-2">PRICE HIGH TO LOW</label>
                 </div>
@@ -93,8 +93,8 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
                 <div className="flex items-center gap-2">
                     <input
                         type="checkbox"
-                        checked={category === ""}
-                        onChange={() => handleCategoryBy("")}
+                        checked={filters.category === ""}
+                        onChange={() => updateFilter({ category: "", subCategory: "" })}
                     />
                     <span>All</span>
                 </div>
@@ -106,22 +106,22 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
                         <div key={item.id} className="flex items-center gap-2">
                             <input
                                 type="checkbox"
-                                checked={category === item.slug}
-                                onChange={() => handleCategoryBy(item.slug)}
+                                checked={filters.category === item.slug}
+                                onChange={() => updateFilter({ category: item.slug, subCategory: "" })}
                             />
                             <span>{item.name}</span>
                         </div>
                     ))}
             </div>
 
-            {category && (
+            {filters.category && (
                 <div className="border border-gray-200 rounded-md p-4 my-2">
                     <h1>SUB CATEGORIES</h1>
                     <div className="flex items-center gap-2">
                         <input
                             type="checkbox"
-                            checked={subCategory === ""}
-                            onChange={() => handleSubCategoryBy("")}
+                            checked={filters.subCategory === ""}
+                            onChange={() => updateFilter({ subCategory: "" })}
                         />
                         <span>All</span>
                     </div>
@@ -133,8 +133,8 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
                             <div key={item.id} className="flex items-center gap-2">
                                 <input
                                     type="checkbox"
-                                    checked={subCategory === item.slug}
-                                    onChange={() => handleSubCategoryBy(item.slug)}
+                                    checked={filters.subCategory === item.slug}
+                                    onChange={() => updateFilter({ subCategory: item.slug })}
                                 />
                                 <span>{item.name}</span>
                             </div>
@@ -144,13 +144,13 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
 
             <div className="border border-gray-200 rounded-md p-4 my-2">
                 <h1>AVAILABILITY</h1>
-                {/* The Emboss page always filters by embossable, so it passes no handler */}
-                {handleIsEmbossableBy && (
+                {/* The Emboss page always filters by embossable, so its filters have no embossable key */}
+                {"embossable" in filters && (
                     <div className="flex items-center gap-2">
                         <input
                             type="checkbox"
-                            checked={embossable}
-                            onChange={(event) => handleIsEmbossableBy(event.target.checked)}
+                            checked={filters.embossable}
+                            onChange={(event) => updateFilter({ embossable: event.target.checked })}
                         />
                         <span>Embose</span>
                     </div>
@@ -158,16 +158,14 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
                 <div className="flex items-center gap-2">
                     <input
                         type="checkbox"
-                        checked={stock}
-                        onChange={(event) => handleStock(event.target.checked)}
+                        checked={filters.stock}
+                        onChange={(event) => updateFilter({ stock: event.target.checked })}
                     />
                     <span>In Stock</span>
                 </div>
             </div>
-
-
             {/* Arrow keys only fire onInput, so apply the price when the key is released */}
-            <div className="border border-gray-200 rounded-md p-4 my-2" onKeyUp={(event) => event.key.startsWith("Arrow") && handlePriceRange(range)}>
+            <div className="border border-gray-200 rounded-md p-4 my-2" onKeyUp={(event) => event.key.startsWith("Arrow") && updateFilter({ priceRange: range })}>
                 <h1>PRICE RANGE</h1>
                 <RangeSlider
                     min={0}
@@ -175,8 +173,8 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
                     step={100}
                     value={range}
                     onInput={setRange}
-                    onThumbDragEnd={() => handlePriceRange(range)}
-                    onRangeDragEnd={() => handlePriceRange(range)}
+                    onThumbDragEnd={() => updateFilter({ priceRange: range })}
+                    onRangeDragEnd={() => updateFilter({ priceRange: range })}
                     className="my-4 w-full h-1! bg-gray-200! [&_.range-slider\_\_range]:bg-[#fb641b]! [&_.range-slider\_\_thumb]:bg-[#fb641b]! [&_.range-slider\_\_thumb]:size-4!"
                 />
                 <div className="flex justify-between w-full">
@@ -184,8 +182,6 @@ const Filter = ({ isOpen, onClose, sortBy, category, subCategory, handleSortBy, 
                     <span>₹{range[1]}{range[1] === 10000 && "+"}</span>
                 </div>
             </div>
-
-
             <div className="md:hidden sticky bottom-0 mt-auto flex gap-3 bg-white pt-3">
                 <button onClick={handleReset} className="flex-1 py-3 border border-gray-300 rounded cursor-pointer">CLEAR ALL</button>
                 <button onClick={onClose} className="flex-1 py-3 bg-[#fb641b] text-white rounded cursor-pointer">APPLY</button>
