@@ -91,15 +91,10 @@ function ProductDetailsPage() {
         setZoomOrigin(`${((e.clientX - box.left) / box.width) * 100}% ${((e.clientY - box.top) / box.height) * 100}%`);
     };
 
-
     if (loading) {
         return (
             <section>
-                <div className="w-full bg-[#f7f7f7] px-8">
-                    <div className="flex items-center h-[50px]">
-                        <div className="h-4 w-64 rounded bg-gray-300 animate-pulse" />
-                    </div>
-                </div>
+                <Breadcrumb loading />
                 <div className="flex flex-col justify-between w-full px-8 bg-white lg:flex-row lg:h-135">
                     <div className="flex flex-col-reverse lg:flex-row w-full lg:w-1/2 xl:w-[45%] pt-3">
                         <div className="flex flex-row lg:flex-col justify-center lg:justify-start gap-2">
